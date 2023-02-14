@@ -13,6 +13,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 4
+    env:
+      MY_EMAIL: ${{ secrets.MY_EMAIL }}
+      MY_NAME: Noyabronok
     steps:
       - name: ☁️ checkout repository
         uses: actions/checkout@v3
@@ -26,4 +29,8 @@ jobs:
         run: npm ci
 
       - name: 🚀 deploy
-        run: npm run deploy
+        run: |
+          git config --global user.email $MY_EMAIL
+          git config --global user.name $MY_NAME
+          git remote set-url origin https://$MY_NAME:${{ secrets.DEPLOY_TOKEN }}@github.com/noyabronok/vite-ts-react.git
+          npm run deploy
