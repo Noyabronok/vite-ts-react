@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 4
     env:
-      MY_EMAIL: testemail@gmail.com
+      MY_EMAIL: ${{ secrets.DEPLOY_TOKEN }}
       MY_NAME: Noyabronok
     steps:
       - name: ☁️ checkout repository
@@ -34,5 +34,5 @@ jobs:
         run: |
           git config --global user.email $MY_EMAIL
           git config --global user.name $MY_NAME
-          git remote set-url origin https://$MY_NAME:${{ secrets.DEPLOY_TOKEN }}@github.com/noybronok/vite-ts-react.git
+          git remote set-url origin https://$MY_NAME:${{ secrets.DEPLOY_TOKEN }}@github.com/noyabronok/vite-ts-react.git
           npm run deploy
