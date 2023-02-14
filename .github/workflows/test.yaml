@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    name: Test application
+    name: Test with coverage
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
@@ -30,7 +30,7 @@ jobs:
         run: npm run coverage
 
   lint:
-    name: Code standards
+    name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
