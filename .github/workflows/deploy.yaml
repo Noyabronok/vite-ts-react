@@ -1,0 +1,29 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test application
+    uses: noybronok/vite-ts-react/.github/workflows/test.yml@main
+  deploy:
+    name: Deploy
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: ☁️ checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🔧 setup node 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: 📦 install dependencies
+        run: npm ci
+
+      - name: 🚀 deploy
+        run: npm run deploy
