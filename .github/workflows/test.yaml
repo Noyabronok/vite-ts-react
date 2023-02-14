@@ -1,4 +1,4 @@
-name: pull-request
+name: Test
 
 on:
   pull_request:
@@ -14,17 +14,14 @@ jobs:
     name: Test application
     runs-on: ubuntu-latest
     timeout-minutes: 3
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
     steps:
       - name: ☁️ checkout repository
         uses: actions/checkout@v3
 
-      - name: 🔧 setup node ${{matrix.node-version}}
+      - name: 🔧 setup node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{matrix.node-version}}
+          node-version: 18.x
 
       - name: 📦 install dependencies
         run: npm ci
@@ -43,7 +40,7 @@ jobs:
       - name: 🔧 setup node ${{matrix.node-version}}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{matrix.node-version}}
+          node-version: 18.x
 
       - name: 📦 install dependencies
         run: npm ci
