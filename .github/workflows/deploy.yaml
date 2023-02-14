@@ -7,7 +7,7 @@ on:
 jobs:
   test:
     name: Test
-    uses: noyabronok/vite-ts-react/.github/workflows/test.yml@main
+    uses: noyabronok/vite-ts-react/.github/workflows/test.yaml@main
   deploy:
     name: Deploy
     needs: test
