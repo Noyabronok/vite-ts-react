@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: ${{matrix.node-version}}
 
+      - name: 📦 install dependencies
+        run: npm ci
+
       - name: 🔍 run tests
         run: npm run coverage
 
@@ -41,6 +44,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{matrix.node-version}}
+
+      - name: 📦 install dependencies
+        run: npm ci
 
       - name: 🔍 lint code
         run: npm run lint
