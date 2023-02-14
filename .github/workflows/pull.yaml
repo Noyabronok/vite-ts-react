@@ -1,0 +1,46 @@
+name: Pull
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+jobs:
+  test:
+    name: Test application
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    steps:
+      - name: ☁️ checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🔧 setup node ${{matrix.node-version}}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+
+      - name: 🔍 run tests
+        run: npm run coverage
+
+  lint:
+    name: Code standards
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: ☁️ checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🔧 setup node ${{matrix.node-version}}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{matrix.node-version}}
+
+      - name: 🔍 lint code
+        run: npm run lint
