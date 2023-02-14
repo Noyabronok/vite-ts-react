@@ -8,6 +8,7 @@ on:
       - edited
       - synchronize
       - reopened
+  workflow_call:
 
 jobs:
   test:
