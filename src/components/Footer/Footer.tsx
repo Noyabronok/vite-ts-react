@@ -14,7 +14,7 @@ export default function Footer() {
     >
       <Typography align="center">
         Written with
-        <Typography display="inline" color="red">
+        <Typography display="inline" color="red" component="span">
           {" love "}
         </Typography>
         by Alex Feldman
