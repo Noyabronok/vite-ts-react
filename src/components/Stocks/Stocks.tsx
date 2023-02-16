@@ -30,7 +30,7 @@ const stocks: StockType[] = [
     symbol: "PTX.FRK",
     name: "Palantir Technologies Inc",
     overview: mockOverview,
-    quote: mockQuote,
+    quote: {...mockQuote, change_percent: "-5.6%"},
   },
   {
     symbol: "P2LT34.SAO",
@@ -49,9 +49,11 @@ const stocks: StockType[] = [
 export default function Stocks() {
   return (
     <Container maxWidth="md" component="main">
-      <Grid container spacing={2} alignItems="flex-end" justifyContent="center">
+      <Grid container spacing={1} alignItems="flex-end" justifyContent="center">
         {stocks.map((stock) => (
-          <Stock stock={stock} key={stock.symbol}/>
+          <Grid item xs={12} sm={6} md={4} key={stock.symbol}>
+            <Stock stock={stock} />
+          </Grid>
         ))}
       </Grid>
     </Container>

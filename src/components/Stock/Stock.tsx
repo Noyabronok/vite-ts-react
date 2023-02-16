@@ -1,9 +1,12 @@
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import StockHeader from '../StockHeader/StockHeader';
+import StockHeader from "../StockHeader/StockHeader";
+import ArrowUpward from "@mui/icons-material/ArrowUpward";
+import ArrowDownward from "@mui/icons-material/ArrowDownward";
+import { Typography } from "@mui/material";
+import StockRow from "../StockRow/StockRow";
+import { VerticalAlignBottom } from "@mui/icons-material";
 
 export type StockOverview = {
   description: string;
@@ -28,38 +31,69 @@ export type StockType = {
 };
 
 export default function Stock({ stock }: { stock: StockType }) {
+  const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
+
   return (
-    <Grid item key={stock.symbol} xs={12} sm={6} md={4}>
-      <Card>
-        <StockHeader stock={stock} />
-        <CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "baseline",
-              mb: 2,
-            }}
-          >
-            <Typography color="text.primary">
-              {stock.overview?.country}
-              <br />
-              {stock.overview?.currency}
-              <br />
-              {stock.quote?.price}
-              <br />
-              {stock.quote?.high}
-              <br />
-              {stock.quote?.low}
-              <br />
-              {stock.quote?.change}
-              <br />
-              {stock.quote?.change_percent}
-              <br />
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
-    </Grid>
+    <Card>
+      <StockHeader stock={stock} />
+      <CardContent>
+        <Grid container spacing={0}>
+          <StockRow left="Country:" right={stock.overview?.country} />
+          <StockRow
+            left="Price:"
+            right={
+              <>
+                $ {stock.quote?.price} {stock.overview?.currency}
+              </>
+            }
+          />
+          <StockRow
+            left="Change:"
+            right={
+              <>
+                $ {stock.quote?.change} {stock.overview?.currency}
+                <br />
+                <Typography
+                  color={priceIncreased ? "green" : "red"}
+                  display="inline"
+                  sx={{ verticalAlign: "text-bottom", pr: 1 }}
+                >
+                  {stock.quote?.change_percent}
+                </Typography>
+                {priceIncreased ? (
+                  <ArrowUpward color="success" />
+                ) : (
+                  <ArrowDownward color="error" />
+                )}
+              </>
+            }
+          />
+
+          <StockRow
+            left={
+              <Typography variant="h5" py={2}>
+                Stats
+              </Typography>
+            }
+          />
+          <StockRow
+            left="High:"
+            right={
+              <>
+                $ {stock.quote?.high} {stock.overview?.currency}
+              </>
+            }
+          />
+          <StockRow
+            left="Low:"
+            right={
+              <>
+                $ {stock.quote?.low} {stock.overview?.currency}
+              </>
+            }
+          />
+        </Grid>
+      </CardContent>
+    </Card>
   );
 }

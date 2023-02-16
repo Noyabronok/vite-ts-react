@@ -10,11 +10,11 @@ export default function StockHeader({ stock }: { stock: StockType }) {
       // TODO memoize the title once in the card component
       title={
         <Tooltip title={stock.overview?.description}>
-          <span>{stock.name}</span>
+          <span>{stock.symbol}</span>
         </Tooltip>
       }
-      subheader={stock.symbol}
-      titleTypographyProps={{ align: "center" }}
+      subheader={stock.name}
+      titleTypographyProps={{ align: "center", variant: 'h6' }}
       action={
         <IconButton
           onClick={(e) => console.log("Clicked card close", e.target)}
