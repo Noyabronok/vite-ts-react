@@ -21,7 +21,7 @@ describe('App', () => {
     // screen.debug();
 
     // check if App components renders headline
-    const header = await screen.findByText('Vite + React');
+    const header = await screen.findByText('Awesome Stock App');
     expect(header).toBeVisible();
   });
 });
