@@ -15,7 +15,8 @@ export default function StockPicker() {
         id="tags-filled"
         options={['alex', 'rafa', 'rufus', 'sophie']}
         // defaultValue={['alex', 'whatever']}
-        freeSolo
+        freeSolo // allow any input
+        filterSelectedOptions // don't show option if already selected
         renderInput={(params) => (
           <TextField
             {...params}

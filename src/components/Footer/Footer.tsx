@@ -1,5 +1,5 @@
-import Container from '@mui/material/Container';
-import { Typography } from '@mui/material';
+import Container from "@mui/material/Container";
+import { Typography } from "@mui/material";
 
 export default function Footer() {
   return (
@@ -13,7 +13,11 @@ export default function Footer() {
       }}
     >
       <Typography align="center">
-        Written with love by Alex Feldman
+        Written with
+        <Typography display="inline" color="red">
+          {" love "}
+        </Typography>
+        by Alex Feldman
       </Typography>
     </Container>
   );
