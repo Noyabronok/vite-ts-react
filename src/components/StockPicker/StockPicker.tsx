@@ -8,12 +8,12 @@ export default function StockPicker() {
       disableGutters
       maxWidth="md"
       component="main"
-      sx={{ px: 5, pb: 5 }}
+      sx={{ px: { xs: 2, sm: 3, md: 5 }, pb: { xs: 2, sm: 3, md: 5 } }}
     >
       <Autocomplete
         multiple
         id="tags-filled"
-        options={['alex', 'rafa', 'rufus', 'sophie']}
+        options={["alex", "rafa", "rufus", "sophie"]}
         // defaultValue={['alex', 'whatever']}
         freeSolo // allow any input
         filterSelectedOptions // don't show option if already selected
