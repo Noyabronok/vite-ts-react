@@ -51,7 +51,7 @@ export default function Stocks() {
     <Container maxWidth="md" component="main">
       <Grid container spacing={2} alignItems="flex-end" justifyContent="center">
         {stocks.map((stock) => (
-          <Stock stock={stock} />
+          <Stock stock={stock} key={stock.symbol}/>
         ))}
       </Grid>
     </Container>
