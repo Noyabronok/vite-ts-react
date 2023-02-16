@@ -1,12 +1,9 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
 import Grid from "@mui/material/Grid";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
+import StockHeader from '../StockHeader/StockHeader';
 
 export type StockOverview = {
   description: string;
@@ -34,29 +31,7 @@ export default function Stock({ stock }: { stock: StockType }) {
   return (
     <Grid item key={stock.symbol} xs={12} sm={6} md={4}>
       <Card>
-        <CardHeader
-          // TODO memoize the title once in the card component
-          title={
-            <Tooltip title={stock.overview?.description}>
-              <span>{stock.name}</span>
-            </Tooltip>
-          }
-          subheader={stock.symbol}
-          titleTypographyProps={{ align: "center" }}
-          action={
-            <IconButton
-              onClick={(e) => console.log("Clicked card close", e.target)}
-            >
-              <CloseIcon />
-            </IconButton>
-          }
-          subheaderTypographyProps={{
-            align: "center",
-          }}
-          sx={{
-            backgroundColor: (theme) => theme.palette.background.paper,
-          }}
-        />
+        <StockHeader stock={stock} />
         <CardContent>
           <Box
             sx={{
