@@ -37,7 +37,7 @@ export default function Stock({ stock }: { stock: StockType }) {
       <StockHeader stock={stock} />
       <CardContent>
         <Grid container spacing={0}>
-          <StockRow left="Country:" right={stock.overview?.country} />
+          <StockRow left="Country:" right={stock.overview?.country} pb={2} />
           <StockRow
             left="Price:"
             right={
