@@ -7,7 +7,7 @@ export default function Hero() {
       disableGutters
       maxWidth="md"
       component="main"
-      sx={{ pt: 4, pb: 4 }}
+      sx={{ px: 2, py: 4 }}
     >
       <Typography
         variant="h5"
