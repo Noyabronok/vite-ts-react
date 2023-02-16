@@ -53,7 +53,7 @@ export default function Stock({ stock }: { stock: StockType }) {
                 $ {stock.quote?.change} {stock.overview?.currency}
                 <br />
                 <Typography
-                  color={priceIncreased ? "green" : "red"}
+                  color={priceIncreased ? "#66bb6a" : "error"}
                   display="inline"
                   sx={{ verticalAlign: "text-bottom", pr: 1 }}
                 >
