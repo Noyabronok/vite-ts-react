@@ -6,7 +6,6 @@ import ArrowUpward from "@mui/icons-material/ArrowUpward";
 import ArrowDownward from "@mui/icons-material/ArrowDownward";
 import { Typography } from "@mui/material";
 import StockRow from "../StockRow/StockRow";
-import { VerticalAlignBottom } from "@mui/icons-material";
 
 export type StockOverview = {
   description: string;
