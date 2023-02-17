@@ -1,12 +1,12 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { stockSearch, StockType } from "../../lib/avantage";
 import { stocks } from "../../mocks/mockStocks";
 
 export type StockPickerProps = {
-  setSelectedStocks: (stocks: StockType[]) => void;
+  onSelectionChanged: (stocks: StockType[]) => void;
   selectedStocks: StockType[];
   isMockMode: boolean;
 };
@@ -14,7 +14,7 @@ export type StockPickerProps = {
 const MAX_STOCK_LIMIT = 3;
 
 export default function StockPicker({
-  setSelectedStocks,
+  onSelectionChanged,
   selectedStocks,
   isMockMode = false,
 }: StockPickerProps) {
@@ -65,11 +65,12 @@ export default function StockPicker({
 
       fetchData();
 
+      // cleanup
       return () => controller.abort();
     }
   }, [searchString, selectedStocks, isMockMode]);
 
-  // Update selection if we receive results from search or stock selection updated by user
+  // Update matching options if we receive new search results or stock selection updated by user
   // 1. remove already selected stocksmap discovered stocks to selectOptions
   // 2. map to and update selection options
   // Important: we don't want this defined inside useEffect's async
@@ -103,7 +104,7 @@ export default function StockPicker({
         value={selectedStocks?.map((stock) => stock.symbol) || []}
         onChange={(_event: any, selectedOptions: string[]) => {
           // update selected stock
-          setSelectedStocks(
+          onSelectionChanged(
             selectedOptions.map((option) => {
               const selectedSymbol = option.split(" ")[0]; // extract the symbol from the selection
               return stocks.find(

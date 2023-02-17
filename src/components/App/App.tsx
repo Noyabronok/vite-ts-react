@@ -7,19 +7,23 @@ import type { StockType } from "../../lib/avantage";
 import { useState } from "react";
 
 export default function App() {
+  const [mockMode, setMockMode] = useState(false);
   const [stocks, setStocks] = useState<StockType[]>([]);
 
-  const setSelectedStocks = (stocks: StockType[]) => {
+  const updateSelectedStocks = (stocks: StockType[]) => {
     setStocks(stocks);
   };
 
+  const toggleMockMode = (newMockMode: boolean) => setMockMode(newMockMode);
+
   return (
     <>
-      <Header />
+      <Header mockMode={mockMode} onMockModeToggle={toggleMockMode} />
       <Hero />
       <StockPicker
-        setSelectedStocks={setSelectedStocks}
+        onSelectionChanged={updateSelectedStocks}
         selectedStocks={stocks}
+        isMockMode={mockMode}
       />
       <Stocks stocks={stocks} />
       <Footer />
