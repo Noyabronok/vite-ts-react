@@ -6,34 +6,13 @@ import ArrowUpward from "@mui/icons-material/ArrowUpward";
 import ArrowDownward from "@mui/icons-material/ArrowDownward";
 import { Typography } from "@mui/material";
 import StockRow from "../StockRow/StockRow";
-
-export type StockOverview = {
-  description: string;
-  exchange: string;
-  currency: string;
-  country: string;
-};
-
-export type StockQuote = {
-  high: string;
-  low: string;
-  price: string;
-  change: string;
-  change_percent: string;
-};
-
-export type StockType = {
-  symbol: string;
-  name: string;
-  overview?: StockOverview;
-  quote?: StockQuote;
-};
+import type { StockType } from "../../lib/avantage";
 
 export default function Stock({ stock }: { stock: StockType }) {
   const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
 
   return (
-    <Card>
+    <Card component="article">
       <StockHeader stock={stock} />
       <CardContent>
         <Grid container spacing={0}>

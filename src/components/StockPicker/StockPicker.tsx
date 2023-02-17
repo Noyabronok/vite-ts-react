@@ -2,7 +2,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
-import { StockType } from "../Stock/Stock";
+import { StockType } from "../../lib/avantage";
 import { stocks } from "../../mocks/mockStocks";
 
 export type StockPickerProps = {

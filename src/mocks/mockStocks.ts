@@ -1,4 +1,4 @@
-import { StockType } from "../components/Stock/Stock";
+import { StockType } from "../lib/avantage";
 
 const mockOverview = {
   description:

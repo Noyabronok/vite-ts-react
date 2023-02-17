@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
-import type { StockType } from "../Stock/Stock";
+import type { StockType } from "../../lib/avantage";
 import Stock from "../Stock/Stock";
 
 export default function Stocks({stocks}: {stocks: StockType[]}) {
