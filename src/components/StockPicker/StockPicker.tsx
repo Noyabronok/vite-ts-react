@@ -3,51 +3,9 @@ import Autocomplete, {
 } from "@mui/material/Autocomplete";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StockType } from "../Stock/Stock";
-
-const mockOverview = {
-  description:
-    "Palantir Technologies Inc. creates and implements software platforms for the intelligence community in the United States to assist in counterterrorism investigations and operations. The company is headquartered in Denver, Colorado.",
-  exchange: "NYSE",
-  currency: "USD",
-  country: "USA",
-};
-
-const mockQuote = {
-  high: "10.2300",
-  low: "9.1100",
-  price: "10.1100",
-  change: "0.8900",
-  change_percent: "9.6529%",
-};
-
-const stocks: StockType[] = [
-  {
-    symbol: "PLTR",
-    name: "Palantir Technologies Inc - Class A",
-    overview: mockOverview,
-    quote: mockQuote,
-  },
-  {
-    symbol: "PTX.FRK",
-    name: "Palantir Technologies Inc",
-    overview: mockOverview,
-    quote: { ...mockQuote, change_percent: "-5.6%" },
-  },
-  {
-    symbol: "P2LT34.SAO",
-    name: "Palantir Technologies Inc",
-    overview: mockOverview,
-    quote: mockQuote,
-  },
-  {
-    symbol: "PTX.DEX",
-    name: "Palantir Technologies Inc.",
-    overview: mockOverview,
-    quote: mockQuote,
-  },
-];
+import { stocks } from "../../mocks/mockStocks";
 
 export type StockPickerProps = {
   setSelectedStocks: (stocks: StockType[]) => void;
@@ -59,6 +17,29 @@ export default function StockPicker({
   selectedStocks,
 }: StockPickerProps) {
   const [searchString, setSearchString] = useState<string>("");
+  const [matchingOptions, setMatchingOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!searchString) {
+      setMatchingOptions([] as string[]);
+      return;
+    }
+
+    const uCaseSearchString = searchString.toUpperCase();
+    const selectedSymbols = selectedStocks.map((stock) => stock.symbol);
+
+    // TODO use mocks only if mock mode enabled
+    const matchingStocks = stocks
+      .filter(
+        (stock) =>
+          stock.name.toUpperCase().includes(uCaseSearchString) ||
+          stock.symbol.includes(uCaseSearchString)
+      )
+      .filter((stock) => !selectedSymbols.includes(stock.symbol)) // remove already selected stocks
+      .map((stock) => `${stock.symbol} - ${stock.name}`);
+
+    setMatchingOptions(matchingStocks);
+  }, [searchString, selectedStocks]);
 
   return (
     <Container
@@ -70,30 +51,22 @@ export default function StockPicker({
       <Autocomplete
         multiple
         id="stock-picker"
-        options={stocks.map((stock) => stock.symbol)}
+        options={matchingOptions}
         freeSolo // allow any input
-        filterSelectedOptions // don't show option if already selected
+        filterOptions={(x) => x}
         value={selectedStocks?.map((stock) => stock.symbol) || []}
-        onChange={(
-          event: any,
-          selectedSymbols: string[],
-          reason: AutocompleteChangeReason
-        ) => {
-          console.log("Stock selection changed", {
-            reason,
-            selectedSymbols,
-            event,
-          });
+        onChange={(_event: any, selectedOptions: string[]) => {
           setSelectedStocks(
-            selectedSymbols.map(
-              (symbol) =>
-                stocks.find((stock) => stock?.symbol === symbol) as StockType
-            )
+            selectedOptions.map((option) => {
+              const selectedSymbol = option.split(" ")[0]; // extract the symbol from the selection
+              return stocks.find(
+                (stock) => stock?.symbol === selectedSymbol
+              ) as StockType;
+            })
           );
         }}
         inputValue={searchString}
         onInputChange={(_event, searchString) => {
-          console.log('search string changed', searchString)
           setSearchString(searchString);
         }}
         renderInput={(params) => (

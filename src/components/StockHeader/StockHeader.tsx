@@ -1,5 +1,5 @@
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+// import IconButton from "@mui/material/IconButton";
+// import CloseIcon from "@mui/icons-material/Close";
 import Tooltip from "@mui/material/Tooltip";
 import CardHeader from "@mui/material/CardHeader";
 import type { StockType } from "../Stock/Stock";
@@ -15,13 +15,14 @@ export default function StockHeader({ stock }: { stock: StockType }) {
       }
       subheader={stock.name}
       titleTypographyProps={{ align: "center", variant: 'h6' }}
-      action={
-        <IconButton
-          onClick={(e) => console.log("Clicked card close", e.target)}
-        >
-          <CloseIcon />
-        </IconButton>
-      }
+      // TODO: consider removing this since there's already an option to remove the stocks in the picker
+      // action={
+      //   <IconButton
+      //     onClick={(e) => console.log("Clicked card close", e.target)}
+      //   >
+      //     <CloseIcon />
+      //   </IconButton>
+      // }
       subheaderTypographyProps={{
         align: "center",
       }}
