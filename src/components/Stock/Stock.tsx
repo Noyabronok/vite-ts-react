@@ -7,9 +7,22 @@ import ArrowDownward from "@mui/icons-material/ArrowDownward";
 import { Typography } from "@mui/material";
 import StockRow from "../StockRow/StockRow";
 import type { StockType } from "../../lib/avantage";
+import { useEffect } from "react";
 
-export default function Stock({ stock }: { stock: StockType }) {
+export interface StockProps {
+  stock: StockType;
+  mockMode: boolean;
+}
+
+export default function Stock({ stock, mockMode }: StockProps) {
   const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
+
+  useEffect(() => {
+    console.log('New stock selected, load rest of data here', stock.symbol, mockMode);
+    if (mockMode) {
+      return;
+    }
+  },[mockMode, stock]);
 
   return (
     <Card component="article">

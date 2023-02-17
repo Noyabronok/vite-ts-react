@@ -4,14 +4,14 @@ import Hero from "../Hero/Hero";
 import Stocks from "../Stocks/Stocks";
 import StockPicker from "../StockPicker/StockPicker";
 import type { StockType } from "../../lib/avantage";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { mockStocks } from "../../mocks/mockStocks";
 
 export default function App() {
   const [mockMode, setMockMode] = useState(false);
   const [selectedStocks, setSelectedStocks] = useState<StockType[]>([]);
 
-  const updateSelectedStocks = (updatedStocks: StockType[]) => {
+  const updateSelectedStocks = useCallback((updatedStocks: StockType[]) => {
     if (mockMode) {
       // map the selected stocks to full info mock stocks
       const newlySelectedStocks = updatedStocks.map(
@@ -29,14 +29,12 @@ export default function App() {
         if (alreadySelectedStock) {
           return alreadySelectedStock;
         }
-
-        // TODO need to trigger getting the rest of data 
         return updatedStock;
       });
 
       setSelectedStocks(newlySelectedStocks);
     }
-  };
+  },[mockMode, selectedStocks]);
 
   const toggleMockMode = (newMockMode: boolean) => setMockMode(newMockMode);
 
@@ -47,9 +45,9 @@ export default function App() {
       <StockPicker
         onSelectionChanged={updateSelectedStocks}
         selectedStocks={selectedStocks}
-        isMockMode={mockMode}
+        mockMode={mockMode}
       />
-      <Stocks stocks={selectedStocks} />
+      <Stocks stocks={selectedStocks} mockMode={mockMode} />
       <Footer />
     </>
   );

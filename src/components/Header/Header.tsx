@@ -6,7 +6,6 @@ import reactLogo from "../../assets/react.svg";
 import viteLogo from "../../assets/vite.svg";
 import muiLogo from "../../assets/mui.svg";
 import { ToggleButton } from "@mui/material";
-import CheckIcon from '@mui/icons-material/Check';
 
 export interface HeaderProps {
   mockMode: boolean;

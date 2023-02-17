@@ -28,8 +28,6 @@ interface RawSearchResponse {
 export const stockSearch = async (input: string, abortSignal: AbortSignal): Promise<StockType[]> => {
   const response = await avantageFetch<RawSearchResponse>("SEARCH", input, abortSignal);
 
-  console.log("Got search results", response);
-
   const stocks = response.bestMatches.map((stock) => {
     return { name: stock["2. name"], symbol: stock["1. symbol"] } as StockType;
   }) as StockType[];

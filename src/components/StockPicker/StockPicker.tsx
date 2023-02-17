@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { stockSearch, StockType } from "../../lib/avantage";
 import { mockStocks } from "../../mocks/mockStocks";
 
-export type StockPickerProps = {
+export interface StockPickerProps {
   onSelectionChanged: (stocks: StockType[]) => void;
   selectedStocks: StockType[];
-  isMockMode: boolean;
+  mockMode: boolean;
 };
 
 const MAX_STOCK_LIMIT = 3;
@@ -16,7 +16,7 @@ const MAX_STOCK_LIMIT = 3;
 export default function StockPicker({
   onSelectionChanged,
   selectedStocks,
-  isMockMode = false,
+  mockMode = false,
 }: StockPickerProps) {
   const [searchString, setSearchString] = useState<string>("");
   const [matchingStocks, setMatchingStocks] = useState<StockType[]>([]); // raw results from search
@@ -34,7 +34,7 @@ export default function StockPicker({
       return;
     }
 
-    if (isMockMode) {
+    if (mockMode) {
       const uCaseSearchString = searchString.toUpperCase();
 
       const matchingStocks = mockStocks.filter(
@@ -68,7 +68,7 @@ export default function StockPicker({
       // cleanup
       return () => controller.abort();
     }
-  }, [searchString, selectedStocks, isMockMode]);
+  }, [searchString, selectedStocks, mockMode]);
 
   // Update matching options if we receive new search results or stock selection updated by user
   // 1. remove already selected stocksmap discovered stocks to selectOptions
