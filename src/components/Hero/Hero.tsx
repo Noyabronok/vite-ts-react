@@ -15,8 +15,7 @@ export default function Hero() {
         color="text.secondary"
         component="p"
       >
-        This awesome app lets you search for and select up to 3 stocks to
-        compare.
+        Search and compare stocks for free!  Awesome!
       </Typography>
     </Container>
   );

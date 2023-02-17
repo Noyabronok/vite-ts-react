@@ -41,21 +41,26 @@ export default function Stock({ stock }: { stock: StockType }) {
           <StockRow
             left="Price:"
             right={
-              <>
+              <Typography sx={{ fontSize: "1.2rem" }}>
                 $ {stock.quote?.price} {stock.overview?.currency}
-              </>
+              </Typography>
             }
           />
           <StockRow
             left="Change:"
             right={
               <>
-                $ {stock.quote?.change} {stock.overview?.currency}
-                <br />
+                <Typography sx={{ fontSize: "1rem" }}>
+                  $ {stock.quote?.change} {stock.overview?.currency}
+                </Typography>
                 <Typography
                   color={priceIncreased ? "#66bb6a" : "error"}
                   display="inline"
-                  sx={{ verticalAlign: "text-bottom", pr: 1 }}
+                  sx={{
+                    verticalAlign: "text-bottom",
+                    pr: 1,
+                    fontSize: "1.2rem",
+                  }}
                 >
                   {stock.quote?.change_percent}
                 </Typography>

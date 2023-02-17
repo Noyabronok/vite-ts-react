@@ -19,6 +19,15 @@ const darkTheme = createTheme({
       paper: '#24344d',
     },
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 660, // give a little more width
+      md: 980,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
