@@ -15,7 +15,7 @@ export default function Hero() {
         color="text.secondary"
         component="p"
       >
-        Search and compare stocks for free!  Awesome!
+        Search and compare stocks without hassle!  That's Awesome!
       </Typography>
     </Container>
   );

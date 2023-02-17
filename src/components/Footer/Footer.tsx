@@ -19,6 +19,9 @@ export default function Footer() {
         </Typography>
         by Alex Feldman
       </Typography>
+      <Typography align="right" fontSize=".7rem">
+        Build version: {APP_VERSION}
+      </Typography>
     </Container>
   );
 }

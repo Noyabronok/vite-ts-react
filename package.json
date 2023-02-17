@@ -13,6 +13,7 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
+    "postdeploy": "npm version minor && npm add package.json package-lock.json && npm commit -nm 'version bump' && git push",
     "prepare": "husky install"
   },
   "dependencies": {
