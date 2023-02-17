@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import { stockSearch, StockType } from "../../lib/avantage";
-import { stocks } from "../../mocks/mockStocks";
+import { mockStocks } from "../../mocks/mockStocks";
 
 export type StockPickerProps = {
   onSelectionChanged: (stocks: StockType[]) => void;
@@ -37,7 +37,7 @@ export default function StockPicker({
     if (isMockMode) {
       const uCaseSearchString = searchString.toUpperCase();
 
-      const matchingStocks = stocks.filter(
+      const matchingStocks = mockStocks.filter(
         (stock) =>
           stock.name.toUpperCase().includes(uCaseSearchString) ||
           stock.symbol.includes(uCaseSearchString)
@@ -103,13 +103,14 @@ export default function StockPicker({
         filterOptions={(x) => x} // disable built in filter so we can use our custom one
         value={selectedStocks?.map((stock) => stock.symbol) || []}
         onChange={(_event: any, selectedOptions: string[]) => {
-          // update selected stock
+          // update selected stocks
           onSelectionChanged(
             selectedOptions.map((option) => {
-              const selectedSymbol = option.split(" ")[0]; // extract the symbol from the selection
-              return stocks.find(
-                (stock) => stock?.symbol === selectedSymbol
-              ) as StockType;
+              const [symbol, name] = option.split(" - ");
+              return {
+                symbol,
+                name,
+              };
             })
           );
         }}

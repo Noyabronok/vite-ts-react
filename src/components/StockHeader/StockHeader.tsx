@@ -2,7 +2,7 @@
 // import CloseIcon from "@mui/icons-material/Close";
 import Tooltip from "@mui/material/Tooltip";
 import CardHeader from "@mui/material/CardHeader";
-import type { StockType } from "../Stock/Stock";
+import type { StockType } from "../../lib/avantage";
 
 export default function StockHeader({ stock }: { stock: StockType }) {
   return (
