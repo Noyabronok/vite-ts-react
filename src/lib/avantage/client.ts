@@ -4,7 +4,7 @@ export type FetchOperation = 'SEARCH' | 'OVERVIEW' | 'QUOTE'
 const URL_BASE = 'https://www.alphavantage.co/query?function=';
 const API_KEY = '&apikey=ZKNJ4ST22E17NFP2'; // this is a "public" demo key, so OK to expose
 
-export const avantageFetch = async (operation: FetchOperation, input: string) => {
+export const avantageFetch = async <T>(operation: FetchOperation, input: string, abortSignal: AbortSignal) => {
   let url = URL_BASE;
 
   if (operation === "SEARCH") {
@@ -17,20 +17,12 @@ export const avantageFetch = async (operation: FetchOperation, input: string) =>
     throw new Error('avantage client - unsupported operation');
   }
 
-  // generate the abort signal here that consumer can use to abort the fetch
-  const abortController = new AbortController();
-  const signal = abortController.signal;
-
-  const fetchPromise = fetch(url, { signal })
+  return fetch(url, { signal: abortSignal })
   .then((response) => {
-    console.log("Download complete", response);
+    return response.json() as T;
   })
   .catch((err) => {
-    console.error(`Download error: ${err.message}`);
+    console.error(`Avantage fetch error: ${err.message}`);
+    throw new Error(`avantage client - fetch error - ${err.message}`)
   });
-
-  return {
-    abortController,
-    fetchPromise,
-  }
 }
