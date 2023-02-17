@@ -1,7 +1,7 @@
 {
   "name": "vite-ts-react",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,9 +13,16 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
+    "postdeploy": "npm version minor -m 'bump version %s' && git push && git push --tags",
     "prepare": "husky install"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "^5.11.9",
+    "package-lock.json": "^1.0.0",
+    "package.json": "^2.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
