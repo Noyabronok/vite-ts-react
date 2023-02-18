@@ -5,10 +5,10 @@ import Stock from "../Stock/Stock";
 
 export interface StocksProps {
   stocks: StockType[];
-  mockMode: boolean;
+  onStockUpdated: (stock: StockType) => void;
 }
 
-export default function Stocks({ stocks, mockMode }: StocksProps) {
+export default function Stocks({ stocks, ...rest}: StocksProps) {
   return (
     <Container maxWidth="md" component="main">
       <Grid
@@ -20,7 +20,7 @@ export default function Stocks({ stocks, mockMode }: StocksProps) {
       >
         {stocks.map((stock) => (
           <Grid item xs={12} sm={6} md={4} key={stock.symbol}>
-            <Stock stock={stock} mockMode={mockMode} />
+            <Stock stock={stock} {...rest} />
           </Grid>
         ))}
       </Grid>

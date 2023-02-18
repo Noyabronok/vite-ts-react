@@ -6,23 +6,46 @@ import ArrowUpward from "@mui/icons-material/ArrowUpward";
 import ArrowDownward from "@mui/icons-material/ArrowDownward";
 import { Typography } from "@mui/material";
 import StockRow from "../StockRow/StockRow";
-import type { StockType } from "../../lib/avantage";
+import type {StockType } from "../../lib/avantage";
 import { useEffect } from "react";
+import { stockOverview } from "../../lib/avantage";
 
 export interface StockProps {
   stock: StockType;
-  mockMode: boolean;
+  onStockUpdated: (stock: StockType) => void;
 }
 
-export default function Stock({ stock, mockMode }: StockProps) {
+export default function Stock({ stock, onStockUpdated }: StockProps) {
   const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
-
+  
   useEffect(() => {
-    console.log('New stock selected, load rest of data here', stock.symbol, mockMode);
-    if (mockMode) {
-      return;
+    console.log(
+      "New stock selected, load rest of data here",
+      stock.symbol,
+      stock.overview
+    );
+    if (stock.overview) {
+      return; // we already have the data, so nothing to query
     }
-  },[mockMode, stock]);
+    const overviewAbortController = new AbortController();
+    const overviewSignal = overviewAbortController.signal;
+
+    const fetchSummary = async () => {
+      try {
+        const newOverview = await stockOverview(stock.symbol, overviewSignal);
+        onStockUpdated({
+          ...stock,
+          overview: newOverview,
+        });
+      } catch (error) {
+        console.log(`Failed overview fetch for ${stock.symbol}`, error);
+      }
+    };
+
+    fetchSummary();
+
+    return () => overviewAbortController.abort();
+  }, [onStockUpdated, stock]);
 
   return (
     <Card component="article">

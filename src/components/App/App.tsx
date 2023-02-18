@@ -11,30 +11,41 @@ export default function App() {
   const [mockMode, setMockMode] = useState(false);
   const [selectedStocks, setSelectedStocks] = useState<StockType[]>([]);
 
-  const updateSelectedStocks = useCallback((updatedStocks: StockType[]) => {
-    if (mockMode) {
-      // map the selected stocks to full info mock stocks
-      const newlySelectedStocks = updatedStocks.map(
-        (stock) =>
-          mockStocks.find(
-            (mockStock) => mockStock.symbol === stock.symbol
-          ) as StockType
-      );
-      setSelectedStocks(newlySelectedStocks);
-    } else {
-      const newlySelectedStocks = updatedStocks.map((updatedStock) => {
-        const alreadySelectedStock = selectedStocks.find(
-          (selectedStock) => selectedStock.symbol === updatedStock.symbol
+  const updateSelectedStocks = useCallback(
+    (updatedStocks: StockType[]) => {
+      if (mockMode) {
+        // map the selected stocks to full info mock stocks
+        const newlySelectedStocks = updatedStocks.map(
+          (stock) =>
+            mockStocks.find(
+              (mockStock) => mockStock.symbol === stock.symbol
+            ) as StockType
         );
-        if (alreadySelectedStock) {
-          return alreadySelectedStock;
-        }
-        return updatedStock;
-      });
+        setSelectedStocks(newlySelectedStocks);
+      } else {
+        const newlySelectedStocks = updatedStocks.map((updatedStock) => {
+          const alreadySelectedStock = selectedStocks.find(
+            (selectedStock) => selectedStock.symbol === updatedStock.symbol
+          );
+          if (alreadySelectedStock) {
+            return alreadySelectedStock;
+          }
+          return updatedStock;
+        });
 
-      setSelectedStocks(newlySelectedStocks);
-    }
-  },[mockMode, selectedStocks]);
+        setSelectedStocks(newlySelectedStocks);
+      }
+    },
+    [mockMode, selectedStocks]
+  );
+
+  // handle fetch results for stock details from the stock component
+  const updateStock = useCallback((updatedStock: StockType) => {
+    const updatedStocks = selectedStocks.map((stock) =>
+      stock.symbol === updatedStock.symbol ? updatedStock : stock
+    );
+    setSelectedStocks(updatedStocks);
+  }, [selectedStocks]);
 
   const toggleMockMode = (newMockMode: boolean) => setMockMode(newMockMode);
 
@@ -47,7 +58,10 @@ export default function App() {
         selectedStocks={selectedStocks}
         mockMode={mockMode}
       />
-      <Stocks stocks={selectedStocks} mockMode={mockMode} />
+      <Stocks
+        stocks={selectedStocks}
+        onStockUpdated={updateStock}
+      />
       <Footer />
     </>
   );
