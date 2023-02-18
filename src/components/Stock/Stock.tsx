@@ -6,34 +6,65 @@ import ArrowUpward from "@mui/icons-material/ArrowUpward";
 import ArrowDownward from "@mui/icons-material/ArrowDownward";
 import { Typography } from "@mui/material";
 import StockRow from "../StockRow/StockRow";
+import type { StockType } from "../../lib/avantage";
+import { useEffect } from "react";
+import { stockOverview, stockQuote } from "../../lib/avantage";
 
-export type StockOverview = {
-  description: string;
-  exchange: string;
-  currency: string;
-  country: string;
-};
+export interface StockProps {
+  stock: StockType;
+  onStockUpdated: (stock: StockType) => void;
+}
 
-export type StockQuote = {
-  high: string;
-  low: string;
-  price: string;
-  change: string;
-  change_percent: string;
-};
-
-export type StockType = {
-  symbol: string;
-  name: string;
-  overview?: StockOverview;
-  quote?: StockQuote;
-};
-
-export default function Stock({ stock }: { stock: StockType }) {
+export default function Stock({ stock, onStockUpdated }: StockProps) {
   const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
 
+  useEffect(() => {
+    if (stock.overview || stock.quote) {
+      return; // we already have the data, so nothing to query
+    }
+
+    const overviewAbortController = new AbortController();
+    const overviewSignal = overviewAbortController.signal;
+
+    const quoteAbortController = new AbortController();
+    const quoteSignal = quoteAbortController.signal;
+
+    const fetchSummary = async () => {
+      try {
+        //TODO use Promise.allSettled to fetch in parallel
+        let overview = stock.overview;
+        if (!overview) {
+          overview = await stockOverview(stock.symbol, overviewSignal);
+        } 
+
+        let quote = stock.quote;
+        if (!stock.quote) {
+          quote = await stockQuote(stock.symbol, quoteSignal);
+        }
+        
+        onStockUpdated({
+          ...stock,
+          overview,
+          quote
+        });
+      } catch (error) {
+        console.error(
+          `Failed overview fetch for stock [${stock.symbol}]`,
+          (error as Error)?.message
+        );
+      }
+    };
+
+    fetchSummary();
+
+    return () => {
+      overviewAbortController.abort();
+      quoteAbortController.abort();
+    };
+  }, [onStockUpdated, stock]);
+
   return (
-    <Card>
+    <Card component="article">
       <StockHeader stock={stock} />
       <CardContent>
         <Grid container spacing={0}>

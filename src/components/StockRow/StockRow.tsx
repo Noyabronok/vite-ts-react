@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 
-type StockRowProps = {
+export interface StockRowProps {
   left?: undefined | string | (JSX.Element & React.ReactNode);
   right?: undefined | string | (JSX.Element & React.ReactNode);
   // All other props

@@ -2,9 +2,13 @@
 // import CloseIcon from "@mui/icons-material/Close";
 import Tooltip from "@mui/material/Tooltip";
 import CardHeader from "@mui/material/CardHeader";
-import type { StockType } from "../Stock/Stock";
+import type { StockType } from "../../lib/avantage";
 
-export default function StockHeader({ stock }: { stock: StockType }) {
+export interface StockHeaderProps {
+  stock: StockType;
+}
+
+export default function StockHeader({ stock }: StockHeaderProps) {
   return (
     <CardHeader
       // TODO memoize the title once in the card component
@@ -14,7 +18,7 @@ export default function StockHeader({ stock }: { stock: StockType }) {
         </Tooltip>
       }
       subheader={stock.name}
-      titleTypographyProps={{ align: "center", variant: 'h6' }}
+      titleTypographyProps={{ align: "center", variant: "h6" }}
       // TODO: consider removing this since there's already an option to remove the stocks in the picker
       // action={
       //   <IconButton

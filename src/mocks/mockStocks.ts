@@ -1,4 +1,4 @@
-import { StockType } from "../components/Stock/Stock";
+import { StockType } from "../lib/avantage";
 
 const mockOverview = {
   description:
@@ -16,7 +16,7 @@ const mockQuote = {
   change_percent: "9.6529%",
 };
 
-export const stocks: StockType[] = [
+export const mockStocks: StockType[] = [
   {
     symbol: "PLTR",
     name: "Palantir Technologies Inc - Class A",

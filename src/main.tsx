@@ -4,7 +4,6 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import App from "./components/App/App";
 
-
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -30,8 +29,9 @@ const darkTheme = createTheme({
   },
 });
 
+// NOTE: React.StrictMode renders components twice in development to expose bugs
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  <React.StrictMode> 
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       {<App />}
