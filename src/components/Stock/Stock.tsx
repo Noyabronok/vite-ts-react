@@ -35,17 +35,17 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
         let overview = stock.overview;
         if (!overview) {
           overview = await stockOverview(stock.symbol, overviewSignal);
-        } 
+        }
 
         let quote = stock.quote;
         if (!stock.quote) {
           quote = await stockQuote(stock.symbol, quoteSignal);
         }
-        
+
         onStockUpdated({
           ...stock,
           overview,
-          quote
+          quote,
         });
       } catch (error) {
         console.error(
@@ -62,6 +62,16 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
       quoteAbortController.abort();
     };
   }, [onStockUpdated, stock]);
+
+  let changeArrow = <></>;
+
+  if (stock.quote?.change_percent) {
+    changeArrow = priceIncreased ? (
+      <ArrowUpward color="success" />
+    ) : (
+      <ArrowDownward color="error" />
+    );
+  }
 
   return (
     <Card component="article">
@@ -95,11 +105,7 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
                 >
                   {stock.quote?.change_percent}
                 </Typography>
-                {priceIncreased ? (
-                  <ArrowUpward color="success" />
-                ) : (
-                  <ArrowDownward color="error" />
-                )}
+                {changeArrow}
               </>
             }
           />
