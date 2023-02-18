@@ -6,9 +6,9 @@ import ArrowUpward from "@mui/icons-material/ArrowUpward";
 import ArrowDownward from "@mui/icons-material/ArrowDownward";
 import { Typography } from "@mui/material";
 import StockRow from "../StockRow/StockRow";
-import type {StockType } from "../../lib/avantage";
+import type { StockType } from "../../lib/avantage";
 import { useEffect } from "react";
-import { stockOverview } from "../../lib/avantage";
+import { stockOverview, stockQuote } from "../../lib/avantage";
 
 export interface StockProps {
   stock: StockType;
@@ -17,35 +17,46 @@ export interface StockProps {
 
 export default function Stock({ stock, onStockUpdated }: StockProps) {
   const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
-  
+
   useEffect(() => {
-    if (stock.overview) {
+    if (stock.overview || stock.quote) {
       return; // we already have the data, so nothing to query
     }
     //TODO REMOVE THIS LOG
     console.log(
       "New stock selected, load rest of data here",
-      stock.symbol,
-      stock.overview
+      JSON.stringify(stock)
     );
     const overviewAbortController = new AbortController();
     const overviewSignal = overviewAbortController.signal;
 
+    const quoteAbortController = new AbortController();
+    const quoteSignal = quoteAbortController.signal;
+
     const fetchSummary = async () => {
       try {
+        //TODO use PromiseAll
         const newOverview = await stockOverview(stock.symbol, overviewSignal);
+        const newQuote = await stockQuote(stock.symbol, quoteSignal);
         onStockUpdated({
           ...stock,
           overview: newOverview,
+          quote: newQuote
         });
       } catch (error) {
-        console.error(`Failed overview fetch for stock [${stock.symbol}]`, (error as Error)?.message);
+        console.error(
+          `Failed overview fetch for stock [${stock.symbol}]`,
+          (error as Error)?.message
+        );
       }
     };
 
     fetchSummary();
 
-    return () => overviewAbortController.abort();
+    return () => {
+      overviewAbortController.abort();
+      quoteAbortController.abort();
+    };
   }, [onStockUpdated, stock]);
 
   return (

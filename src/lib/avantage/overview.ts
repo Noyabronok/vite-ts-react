@@ -8,7 +8,7 @@ export interface StockOverview {
 }
 
 // there are more items returned but we don't need them
-interface RawSearchResponse {
+interface RawOverviewResponse {
   Description: string;
   Exchange: string;
   Currency: string;
@@ -19,7 +19,7 @@ export const stockOverview = async (
   symbol: string,
   abortSignal: AbortSignal
 ): Promise<StockOverview> => {
-  const response = await avantageFetch<RawSearchResponse>(
+  const response = await avantageFetch<RawOverviewResponse>(
     "OVERVIEW",
     symbol,
     abortSignal
