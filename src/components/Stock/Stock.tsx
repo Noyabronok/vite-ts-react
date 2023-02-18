@@ -19,14 +19,15 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
   const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
   
   useEffect(() => {
+    if (stock.overview) {
+      return; // we already have the data, so nothing to query
+    }
+    //TODO REMOVE THIS LOG
     console.log(
       "New stock selected, load rest of data here",
       stock.symbol,
       stock.overview
     );
-    if (stock.overview) {
-      return; // we already have the data, so nothing to query
-    }
     const overviewAbortController = new AbortController();
     const overviewSignal = overviewAbortController.signal;
 
@@ -38,7 +39,7 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
           overview: newOverview,
         });
       } catch (error) {
-        console.log(`Failed overview fetch for ${stock.symbol}`, error);
+        console.error(`Failed overview fetch for stock [${stock.symbol}]`, (error as Error)?.message);
       }
     };
 

@@ -20,9 +20,10 @@ export const avantageFetch = async <T>(operation: FetchOperation, input: string,
   return fetch(url, { signal: abortSignal })
   .then((response) => {
     return response.json() as T;
-  })
-  .catch((err) => {
-    console.error(`Avantage fetch error: ${err.message}`);
-    throw new Error(`avantage client - fetch error - ${err.message}`)
   });
+  // let's handle errors higher up
+  // .catch((err) => {
+  //   console.error(`Avantage fetch error: ${err.message}`);
+  //   throw new Error(`avantage client - fetch error - ${err.message}`)
+  // });
 }
