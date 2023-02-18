@@ -22,11 +22,7 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
     if (stock.overview || stock.quote) {
       return; // we already have the data, so nothing to query
     }
-    //TODO REMOVE THIS LOG
-    console.log(
-      "New stock selected, load rest of data here",
-      JSON.stringify(stock)
-    );
+
     const overviewAbortController = new AbortController();
     const overviewSignal = overviewAbortController.signal;
 
@@ -35,13 +31,21 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
 
     const fetchSummary = async () => {
       try {
-        //TODO use PromiseAll
-        const newOverview = await stockOverview(stock.symbol, overviewSignal);
-        const newQuote = await stockQuote(stock.symbol, quoteSignal);
+        //TODO use Promise.allSettled to fetch in parallel
+        let overview = stock.overview;
+        if (!overview) {
+          overview = await stockOverview(stock.symbol, overviewSignal);
+        } 
+
+        let quote = stock.quote;
+        if (!stock.quote) {
+          quote = await stockQuote(stock.symbol, quoteSignal);
+        }
+        
         onStockUpdated({
           ...stock,
-          overview: newOverview,
-          quote: newQuote
+          overview,
+          quote
         });
       } catch (error) {
         console.error(
