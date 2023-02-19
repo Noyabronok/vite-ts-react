@@ -7,12 +7,16 @@ This is a stock comparing application exercise, written in Typescript, React.js,
 Deployed application is publicly accessible on Github Pages at:  
 https://noyabronok.github.io/vite-ts-react/
 
+![image](https://user-images.githubusercontent.com/1195319/219965728-60430281-fcf8-419a-b48a-30eed49ebcdc.png)
+
+
 # How to use
 
 1. Search for stocks in the Stock Picker by ticker symbol or company name.
 1. Select a stock from list of results (up to 3 selections allowed)
 1. Observe stock details
-1. Remove selected stocks by clicking the X button [TODO add image] on a selected symbol
+1. Remove selected stocks by clicking the X button ![image](https://user-images.githubusercontent.com/1195319/219965605-33bc6cf8-0ea9-4f4b-964d-5ac22eb37328.png)
+ on a selected symbol
 
 ## Alpha Vantage Limitations
 By default, the application connects to Alpha Vantage API to discover stocks.  There are a few issues with this API
@@ -25,7 +29,7 @@ If you own a paid version of Alpha Vantage api key, you can supply it to the app
 
 ## Mock Mode
 
-[TODO add image]
+![image](https://user-images.githubusercontent.com/1195319/219965648-1a327121-b1b9-4eb3-a38a-07934231de73.png)
 
 To get around live API limitations so you can get a quick sense of application behavior, toggle on Mock Mode and search for `Palantir` stocks.
 
