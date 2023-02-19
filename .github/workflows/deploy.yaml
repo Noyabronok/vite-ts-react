@@ -34,7 +34,25 @@ jobs:
           git config --global user.name $MY_NAME
           git remote set-url origin https://$MY_NAME:${{ secrets.DEPLOY_TOKEN }}@github.com/noyabronok/vite-ts-react.git
           npm run deploy
-          git checkout develop 
+  version:
+    name: Bump Develop Version
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      MY_EMAIL: ${{ secrets.MY_EMAIL }}
+      MY_NAME: Noyabronok
+    steps:
+      - name: ☁️ checkout repository
+        uses: actions/checkout@v3
+        with:
+          path: develop
+
+      - name: 🔧 version
+        run: |
+          git config --global user.email $MY_EMAIL
+          git config --global user.name $MY_NAME
+          git remote set-url origin https://$MY_NAME:${{ secrets.DEPLOY_TOKEN }}@github.com/noyabronok/vite-ts-react.git
           npm version minor -m 'bump version %s'
           git push 
           git push --tags"
