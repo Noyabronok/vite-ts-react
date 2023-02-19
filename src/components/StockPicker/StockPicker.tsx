@@ -24,7 +24,7 @@ export default function StockPicker({
   const [searchString, setSearchString] = useState<string>("");
   const [matchingStocks, setMatchingStocks] = useState<StockType[]>([]); // raw results from search
   const [matchingOptions, setMatchingOptions] = useState<string[]>([]); // unselected and option mapped result
-  const [searchLoading, setSearchLoading] = useState(true);
+  const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<Error | null>(null);
 
   const maxStocksPicked = selectedStocks.length === MAX_STOCK_LIMIT;
@@ -43,17 +43,23 @@ export default function StockPicker({
     }
 
     if (mockMode) {
+      setSearchLoading(true);
       setSearchError(null);
-      const uCaseSearchString = searchString.toUpperCase();
 
-      const matchingStocks = mockStocks.filter(
-        (stock) =>
-          stock.name.toUpperCase().includes(uCaseSearchString) ||
-          stock.symbol.includes(uCaseSearchString)
-      );
+      try {
+        const uCaseSearchString = searchString.toUpperCase();
 
-      setMatchingStocks(matchingStocks);
-      setSearchLoading(false);
+        const matchingStocks = mockStocks.filter(
+          (stock) =>
+            stock.name.toUpperCase().includes(uCaseSearchString) ||
+            stock.symbol.includes(uCaseSearchString)
+        );
+        setMatchingStocks(matchingStocks);
+      } catch (error) {
+        setSearchError(error as Error);
+      } finally {
+        setSearchLoading(false);
+      }
     } else {
       const controller = new AbortController();
       const { signal } = controller;
@@ -64,12 +70,12 @@ export default function StockPicker({
 
         try {
           let matchingStocks = await stockSearch(searchString, signal);
-          setSearchLoading(false);
           setMatchingStocks(matchingStocks);
         } catch (error) {
           setSearchError(error as Error);
+        } finally {
+          setSearchLoading(false);
         }
-        setSearchLoading(false);
       };
 
       // use timeout to debounce search requests
@@ -81,6 +87,7 @@ export default function StockPicker({
       return () => {
         clearTimeout(searchRequest);
         controller.abort();
+        setSearchLoading(false);
       };
     }
   }, [searchString, selectedStocks, mockMode]);

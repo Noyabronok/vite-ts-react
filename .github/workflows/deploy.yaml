@@ -46,7 +46,7 @@ jobs:
       - name: ☁️ checkout repository
         uses: actions/checkout@v3
         with:
-          path: develop
+          ref: develop
 
       - name: 🔧 version
         run: |
