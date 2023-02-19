@@ -55,4 +55,4 @@ jobs:
           git remote set-url origin https://$MY_NAME:${{ secrets.DEPLOY_TOKEN }}@github.com/noyabronok/vite-ts-react.git
           npm version minor -m 'bump version %s'
           git push 
-          git push --tags"
+          git push --tags
