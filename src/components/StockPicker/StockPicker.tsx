@@ -26,6 +26,11 @@ export default function StockPicker({
 
   const maxStocksPicked = selectedStocks.length === MAX_STOCK_LIMIT;
 
+  // clear selections on mockMode toggle
+  useEffect(() => {
+    onSelectionChanged([]);
+  },[mockMode])
+
   // search for matching stock options based on user input
   useEffect(() => {
     // nothing to search for, clear results if we had any
