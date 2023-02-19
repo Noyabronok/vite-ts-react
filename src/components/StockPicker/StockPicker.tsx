@@ -3,9 +3,10 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Container from "@mui/material/Container";
 import Snackbar from "@mui/material/Snackbar";
 import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
-import { stockSearch, StockType } from "../../lib/avantage";
-import { mockStocks } from "../../mocks/mockStocks";
+import { useState } from "react";
+import { StockType } from "../../lib/avantage";
+import { useSearchStocks } from "./useSearchStocks";
+import { useStockSelectOptions } from "./useStockSelectOptions";
 
 export interface StockPickerProps {
   onSelectionChanged: (stocks: StockType[]) => void;
@@ -14,7 +15,6 @@ export interface StockPickerProps {
 }
 
 const MAX_STOCK_LIMIT = 3;
-const DEBOUNCE_TIMEOUT = 400;
 
 export default function StockPicker({
   onSelectionChanged,
@@ -22,88 +22,20 @@ export default function StockPicker({
   mockMode = false,
 }: StockPickerProps) {
   const [searchString, setSearchString] = useState<string>("");
-  const [matchingStocks, setMatchingStocks] = useState<StockType[]>([]); // raw results from search
-  const [matchingOptions, setMatchingOptions] = useState<string[]>([]); // unselected and option mapped result
-  const [searchLoading, setSearchLoading] = useState(false);
-  const [searchError, setSearchError] = useState<Error | null>(null);
+
+  // get a list of matching stocks based on user search input
+  const { matchingStocks, searchError, searchLoading } = useSearchStocks(
+    searchString,
+    mockMode
+  );
+
+  // convert matching stocks to dropdown options, after filtering out already selected options
+  const { matchingOptions } = useStockSelectOptions(
+    selectedStocks,
+    matchingStocks
+  );
 
   const maxStocksPicked = selectedStocks.length === MAX_STOCK_LIMIT;
-
-  // search for matching stock options based on user input
-  useEffect(() => {
-    // nothing to search for, clear results if we had any
-    if (!searchString) {
-      setMatchingStocks([]);
-      return;
-    }
-
-    if (mockMode) {
-      setSearchLoading(true);
-      setSearchError(null);
-
-      try {
-        const uCaseSearchString = searchString.toUpperCase();
-
-        const matchingStocks = mockStocks.filter(
-          (stock) =>
-            stock.name.toUpperCase().includes(uCaseSearchString) ||
-            stock.symbol.includes(uCaseSearchString)
-        );
-        setMatchingStocks(matchingStocks);
-      } catch (error) {
-        setSearchError(error as Error);
-      } finally {
-        setSearchLoading(false);
-      }
-    } else {
-      const controller = new AbortController();
-      const { signal } = controller;
-
-      const fetchData = async () => {
-        setSearchError(null);
-        setSearchLoading(true);
-
-        try {
-          let matchingStocks = await stockSearch(searchString, signal);
-          setMatchingStocks(matchingStocks);
-        } catch (error) {
-          setSearchError(error as Error);
-        } finally {
-          setSearchLoading(false);
-        }
-      };
-
-      // use timeout to debounce search requests
-      const searchRequest = setTimeout(() => {
-        fetchData();
-      }, DEBOUNCE_TIMEOUT);
-
-      // cleanup
-      return () => {
-        clearTimeout(searchRequest);
-        controller.abort();
-        setSearchLoading(false);
-      };
-    }
-  }, [searchString, selectedStocks, mockMode]);
-
-  // Update matching options if we receive new search results or stock selection updated by user
-  // 1. remove already selected stocksmap discovered stocks to selectOptions
-  // 2. map to and update selection options
-  // Important: we don't want this defined inside useEffect's async
-  //            in order to avoid stale selectedSymbols closure
-  useEffect(() => {
-    const selectedSymbols = selectedStocks.map((stock) => stock.symbol);
-
-    const unselectedMatchingStocks = matchingStocks.filter(
-      (stock) => !selectedSymbols.includes(stock.symbol)
-    ); // remove already selected stocks
-
-    const matchingStockOptions = unselectedMatchingStocks.map(
-      (stock) => `${stock.symbol} - ${stock.name}`
-    );
-    setMatchingOptions(matchingStockOptions);
-  }, [matchingStocks, selectedStocks]);
 
   return (
     <Container
