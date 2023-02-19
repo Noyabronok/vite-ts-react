@@ -9,7 +9,7 @@ jobs:
     name: Test
     uses: noyabronok/vite-ts-react/.github/workflows/test.yaml@main
   deploy:
-    name: Test
+    name: Deploy
     needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 4
