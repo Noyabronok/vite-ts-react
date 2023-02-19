@@ -75,7 +75,7 @@ npm run test:dev
 - TODO!!!
 
 ## Deployment
-A static website is built in the `dist` folder when `npm run build` is run.  While you can deploy this anywhere you choose, this repo is currently configured to deploy to Github Pages via Github Actions.  The Deploy workflow, as defined in [.github/deploy.yaml](.github/deploy.yaml)
+A static website is built in the `dist` folder when `npm run build` is run.  While you can deploy this anywhere you choose, this repo is currently configured to deploy to Github Pages via Github Actions.  The Deploy workflow, as defined in [.github/workflows/deploy.yaml](.github/workflows/deploy.yaml)
 1. Test the main branch  
 1. Deploy to Github Pages  
 1. Bump minor version in `develop` branch
