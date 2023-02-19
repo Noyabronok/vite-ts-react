@@ -4,12 +4,17 @@ import Hero from "../Hero/Hero";
 import Stocks from "../Stocks/Stocks";
 import StockPicker from "../StockPicker/StockPicker";
 import type { StockType } from "../../lib/avantage";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { mockStocks } from "../../mocks/mockStocks";
 
 export default function App() {
   const [mockMode, setMockMode] = useState(false);
   const [selectedStocks, setSelectedStocks] = useState<StockType[]>([]);
+
+  // clear selections on mockMode toggle
+  useEffect(() => {
+    setSelectedStocks([]);
+  }, [mockMode]);
 
   const updateSelectedStocks = useCallback(
     (updatedStocks: StockType[]) => {

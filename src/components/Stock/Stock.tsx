@@ -29,7 +29,7 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
     const quoteAbortController = new AbortController();
     const quoteSignal = quoteAbortController.signal;
 
-    const fetchSummary = async () => {
+    const fetchDetails = async () => {
       try {
         //TODO use Promise.allSettled to fetch in parallel
         let overview = stock.overview;
@@ -49,13 +49,13 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
         });
       } catch (error) {
         console.error(
-          `Failed overview fetch for stock [${stock.symbol}]`,
+          `Failed detail fetch for stock [${stock.symbol}]`,
           (error as Error)?.message
         );
       }
     };
 
-    fetchSummary();
+    fetchDetails();
 
     return () => {
       overviewAbortController.abort();
