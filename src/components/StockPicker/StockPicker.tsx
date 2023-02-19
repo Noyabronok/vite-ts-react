@@ -1,5 +1,7 @@
+import Alert from "@mui/material/Alert";
 import Autocomplete from "@mui/material/Autocomplete";
 import Container from "@mui/material/Container";
+import Snackbar from "@mui/material/Snackbar";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import { stockSearch, StockType } from "../../lib/avantage";
@@ -9,9 +11,10 @@ export interface StockPickerProps {
   onSelectionChanged: (stocks: StockType[]) => void;
   selectedStocks: StockType[];
   mockMode: boolean;
-};
+}
 
 const MAX_STOCK_LIMIT = 3;
+const DEBOUNCE_TIMEOUT = 400;
 
 export default function StockPicker({
   onSelectionChanged,
@@ -21,15 +24,15 @@ export default function StockPicker({
   const [searchString, setSearchString] = useState<string>("");
   const [matchingStocks, setMatchingStocks] = useState<StockType[]>([]); // raw results from search
   const [matchingOptions, setMatchingOptions] = useState<string[]>([]); // unselected and option mapped result
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(true);
+  const [searchError, setSearchError] = useState<Error | null>(null);
 
   const maxStocksPicked = selectedStocks.length === MAX_STOCK_LIMIT;
 
   // clear selections on mockMode toggle
   useEffect(() => {
     onSelectionChanged([]);
-  },[mockMode])
+  }, [mockMode]);
 
   // search for matching stock options based on user input
   useEffect(() => {
@@ -40,6 +43,7 @@ export default function StockPicker({
     }
 
     if (mockMode) {
+      setSearchError(null);
       const uCaseSearchString = searchString.toUpperCase();
 
       const matchingStocks = mockStocks.filter(
@@ -49,29 +53,35 @@ export default function StockPicker({
       );
 
       setMatchingStocks(matchingStocks);
-      setLoading(false);
+      setSearchLoading(false);
     } else {
-      // TODO add debouncing
       const controller = new AbortController();
       const { signal } = controller;
 
       const fetchData = async () => {
-        setError(false);
-        setLoading(true);
+        setSearchError(null);
+        setSearchLoading(true);
 
         try {
           let matchingStocks = await stockSearch(searchString, signal);
+          setSearchLoading(false);
           setMatchingStocks(matchingStocks);
         } catch (error) {
-          setError(true);
+          setSearchError(error as Error);
         }
-        setLoading(false);
+        setSearchLoading(false);
       };
 
-      fetchData();
+      // use timeout to debounce search requests
+      const searchRequest = setTimeout(() => {
+        fetchData();
+      }, DEBOUNCE_TIMEOUT);
 
       // cleanup
-      return () => controller.abort();
+      return () => {
+        clearTimeout(searchRequest);
+        controller.abort();
+      };
     }
   }, [searchString, selectedStocks, mockMode]);
 
@@ -100,6 +110,24 @@ export default function StockPicker({
       component="main"
       sx={{ px: { xs: 2, sm: 3, md: 5 }, pb: { xs: 2, sm: 3, md: 5 } }}
     >
+      {/* Tip: you can block the avantage URL in dev tools to see an error */}
+      {searchError && (
+        <Snackbar open={true}>
+          <Alert severity="error" sx={{ width: "100%" }}>
+            {`Error looking up matching stocks. ${searchError}`}
+          </Alert>
+        </Snackbar>
+      )}
+
+      {/* Tip: you can throttle down connection in dev tools to keep this message on the screen longer */}
+      {searchLoading && (
+        <Snackbar open={true}>
+          <Alert severity="info" sx={{ width: "100%" }}>
+            Loading search results...
+          </Alert>
+        </Snackbar>
+      )}
+
       <Autocomplete
         multiple
         id="stock-picker"
