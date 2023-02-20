@@ -9,7 +9,7 @@ import { ToggleButton } from "@mui/material";
 
 export interface HeaderProps {
   mockMode: boolean;
-  onMockModeToggle: (newMode: boolean) => void;
+  onMockModeToggle: () => void;
 }
 
 export default function Header({ mockMode, onMockModeToggle }: HeaderProps) {
@@ -29,7 +29,7 @@ export default function Header({ mockMode, onMockModeToggle }: HeaderProps) {
           selected={mockMode}
           sx={{ flexGrow: 1 }}
           onChange={() => {
-            onMockModeToggle(!mockMode);
+            onMockModeToggle();
           }}
         >
           Mock Mode

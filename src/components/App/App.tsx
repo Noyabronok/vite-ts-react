@@ -3,19 +3,17 @@ import Footer from "../Footer/Footer";
 import Hero from "../Hero/Hero";
 import Stocks from "../Stocks/Stocks";
 import StockPicker from "../StockPicker/StockPicker";
-import { useState } from "react";
 import { useStocks } from "./useStocks";
+import { useMockMode } from "./useMockMode";
 
 export default function App() {
-  const [mockMode, setMockMode] = useState(false);
+  const {mockMode, onMockModeToggle} = useMockMode()
   const { selectedStocks, updateSelectedStocks, updateStock } =
     useStocks(mockMode);
 
-  const toggleMockMode = (newMockMode: boolean) => setMockMode(newMockMode);
-
   return (
     <>
-      <Header mockMode={mockMode} onMockModeToggle={toggleMockMode} />
+      <Header mockMode={mockMode} onMockModeToggle={onMockModeToggle} />
       <Hero />
       <StockPicker
         onSelectionChanged={updateSelectedStocks}
