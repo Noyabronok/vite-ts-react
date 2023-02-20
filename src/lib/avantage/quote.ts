@@ -29,12 +29,14 @@ const formatCurrency = (raw: string): string =>
 
 export const stockQuote = async (
   symbol: string,
-  abortSignal: AbortSignal
+  abortSignal: AbortSignal,
+  mockMode: boolean
 ): Promise<StockQuote> => {
   const response = await avantageFetch<RawQuoteResponse>(
     "QUOTE",
     symbol,
-    abortSignal
+    abortSignal,
+    mockMode
   );
   const quote = response?.["Global Quote"] || {};
   console.log("Quote response received", quote);

@@ -6,6 +6,7 @@ import Stock from "../Stock/Stock";
 export interface StocksProps {
   stocks: StockType[];
   onStockUpdated: (stock: StockType) => void;
+  mockMode: boolean;
 }
 
 export default function Stocks({ stocks, ...rest}: StocksProps) {

@@ -17,12 +17,14 @@ interface RawOverviewResponse {
 
 export const stockOverview = async (
   symbol: string,
-  abortSignal: AbortSignal
+  abortSignal: AbortSignal,
+  mockMode: boolean
 ): Promise<StockOverview> => {
   const response = await avantageFetch<RawOverviewResponse>(
     "OVERVIEW",
     symbol,
-    abortSignal
+    abortSignal,
+    mockMode
   );
   console.log("Overview response received", response);
 

@@ -13,9 +13,10 @@ import { stockOverview, stockQuote } from "../../lib/avantage";
 export interface StockProps {
   stock: StockType;
   onStockUpdated: (stock: StockType) => void;
+  mockMode: boolean;
 }
 
-export default function Stock({ stock, onStockUpdated }: StockProps) {
+export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
   const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
 
   useEffect(() => {
@@ -34,12 +35,12 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
         //TODO use Promise.allSettled to fetch in parallel
         let overview = stock.overview;
         if (!overview) {
-          overview = await stockOverview(stock.symbol, overviewSignal);
+          overview = await stockOverview(stock.symbol, overviewSignal, mockMode);
         }
 
         let quote = stock.quote;
         if (!stock.quote) {
-          quote = await stockQuote(stock.symbol, quoteSignal);
+          quote = await stockQuote(stock.symbol, quoteSignal, mockMode);
         }
 
         onStockUpdated({
