@@ -7,61 +7,45 @@ import ArrowDownward from "@mui/icons-material/ArrowDownward";
 import { Typography } from "@mui/material";
 import StockRow from "../StockRow/StockRow";
 import type { StockType } from "../../lib/avantage";
-import { useEffect } from "react";
-import { stockOverview, stockQuote } from "../../lib/avantage";
+import { useCallback, useEffect } from "react";
+import { useStockOverview } from "./useStockOverview";
+import { useStockQuote } from "./useStockQuote";
 
 export interface StockProps {
   stock: StockType;
   onStockUpdated: (stock: StockType) => void;
+  mockMode: boolean;
 }
 
-export default function Stock({ stock, onStockUpdated }: StockProps) {
+export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
   const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
+  // retrieve stock details
+  const { overviewData } = useStockOverview(stock, mockMode);
+  const { quoteData } = useStockQuote(stock, mockMode);
 
+  const formatCurrency = useCallback((raw: string | number | undefined) => {
+    if (!raw) return "";
+
+    const amount = Math.abs(Number(raw)).toFixed(2);
+    const sign = Number(raw) < 0 ? "-" : "";
+  
+    return `${sign} $ ${amount} ${stock.overview?.currency}`;
+  },[stock])
+
+  // update stock details with retrieved data
   useEffect(() => {
-    if (stock.overview || stock.quote) {
-      return; // we already have the data, so nothing to query
+    if (!stock.quote && quoteData) {
+      onStockUpdated({
+        ...stock,
+        quote: quoteData,
+      });
+    } else if (!stock.overview && overviewData) {
+      onStockUpdated({
+        ...stock,
+        overview: overviewData,
+      });
     }
-
-    const overviewAbortController = new AbortController();
-    const overviewSignal = overviewAbortController.signal;
-
-    const quoteAbortController = new AbortController();
-    const quoteSignal = quoteAbortController.signal;
-
-    const fetchSummary = async () => {
-      try {
-        //TODO use Promise.allSettled to fetch in parallel
-        let overview = stock.overview;
-        if (!overview) {
-          overview = await stockOverview(stock.symbol, overviewSignal);
-        }
-
-        let quote = stock.quote;
-        if (!stock.quote) {
-          quote = await stockQuote(stock.symbol, quoteSignal);
-        }
-
-        onStockUpdated({
-          ...stock,
-          overview,
-          quote,
-        });
-      } catch (error) {
-        console.error(
-          `Failed overview fetch for stock [${stock.symbol}]`,
-          (error as Error)?.message
-        );
-      }
-    };
-
-    fetchSummary();
-
-    return () => {
-      overviewAbortController.abort();
-      quoteAbortController.abort();
-    };
-  }, [onStockUpdated, stock]);
+  }, [onStockUpdated, overviewData, quoteData, stock]);
 
   let changeArrow = <></>;
 
@@ -83,7 +67,7 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
             left="Price:"
             right={
               <Typography sx={{ fontSize: "1.2rem" }}>
-                $ {stock.quote?.price} {stock.overview?.currency}
+                {formatCurrency(stock.quote?.price)}
               </Typography>
             }
           />
@@ -92,7 +76,7 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
             right={
               <>
                 <Typography sx={{ fontSize: "1rem" }}>
-                  $ {stock.quote?.change} {stock.overview?.currency}
+                {formatCurrency(stock.quote?.change)}
                 </Typography>
                 <Typography
                   color={priceIncreased ? "#66bb6a" : "error"}
@@ -109,6 +93,14 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
               </>
             }
           />
+          <StockRow
+            left="EPS:"
+            right={
+                <Typography sx={{ fontSize: "1rem" }} color={Number(stock.overview?.eps) >=0 ? "#66bb6a" : "error"}>
+                  {formatCurrency(stock.overview?.eps)}
+                </Typography>
+            }
+          />
 
           <StockRow
             left={
@@ -121,7 +113,7 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
             left="High:"
             right={
               <>
-                $ {stock.quote?.high} {stock.overview?.currency}
+                {formatCurrency(stock.quote?.high)}
               </>
             }
           />
@@ -129,7 +121,7 @@ export default function Stock({ stock, onStockUpdated }: StockProps) {
             left="Low:"
             right={
               <>
-                $ {stock.quote?.low} {stock.overview?.currency}
+                {formatCurrency(stock.quote?.low)}
               </>
             }
           />

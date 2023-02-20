@@ -1,0 +1,30 @@
+[
+  {
+    "Symbol": "PLTR",
+    "Description": "Palantir Technologies Inc. creates and implements software platforms for the intelligence community in the United States to assist in counterterrorism investigations and operations. The company is headquartered in Denver, Colorado.",
+    "Currency": "USD",
+    "Country": "USA",
+    "EPS": "0.252"
+  },
+  {
+    "Symbol": "PTX.FRK",
+    "Description": "Palantir Technologies Inc. creates and implements software platforms for the intelligence community in the United States to assist in counterterrorism investigations and operations. The company is headquartered in Denver, Colorado.",
+    "Currency": "USD",
+    "Country": "USA",
+    "EPS": "-0.234"
+  },
+  {
+    "Symbol": "P2LT34.SAO",
+    "Description": "Palantir Technologies Inc. creates and implements software platforms for the intelligence community in the United States to assist in counterterrorism investigations and operations. The company is headquartered in Denver, Colorado.",
+    "Currency": "USD",
+    "Country": "USA",
+    "EPS": "0.252"
+  },
+  {
+    "Symbol": "PTX.DEX",
+    "Description": "Palantir Technologies Inc. creates and implements software platforms for the intelligence community in the United States to assist in counterterrorism investigations and operations. The company is headquartered in Denver, Colorado.",
+    "Currency": "USD",
+    "Country": "USA",
+    "EPS": "-0.123"
+  }
+]
