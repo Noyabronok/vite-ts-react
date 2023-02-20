@@ -7,7 +7,7 @@ import ArrowDownward from "@mui/icons-material/ArrowDownward";
 import { Typography } from "@mui/material";
 import StockRow from "../StockRow/StockRow";
 import type { StockType } from "../../lib/avantage";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useStockOverview } from "./useStockOverview";
 import { useStockQuote } from "./useStockQuote";
 
@@ -22,6 +22,15 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
   // retrieve stock details
   const { overviewData } = useStockOverview(stock, mockMode);
   const { quoteData } = useStockQuote(stock, mockMode);
+
+  const formatCurrency = useCallback((raw: string | number | undefined) => {
+    if (!raw) return "";
+
+    const amount = Math.abs(Number(raw)).toFixed(2);
+    const sign = Number(raw) < 0 ? "-" : "";
+  
+    return `${sign} $ ${amount} ${stock.overview?.currency}`;
+  },[stock])
 
   // update stock details with retrieved data
   useEffect(() => {
@@ -58,7 +67,7 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
             left="Price:"
             right={
               <Typography sx={{ fontSize: "1.2rem" }}>
-                $ {stock.quote?.price} {stock.overview?.currency}
+                {formatCurrency(stock.quote?.price)}
               </Typography>
             }
           />
@@ -67,7 +76,7 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
             right={
               <>
                 <Typography sx={{ fontSize: "1rem" }}>
-                  $ {stock.quote?.change} {stock.overview?.currency}
+                {formatCurrency(stock.quote?.change)}
                 </Typography>
                 <Typography
                   color={priceIncreased ? "#66bb6a" : "error"}
@@ -88,7 +97,7 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
             left="EPS:"
             right={
                 <Typography sx={{ fontSize: "1rem" }} color={Number(stock.overview?.eps) >=0 ? "#66bb6a" : "error"}>
-                  $ {stock.overview?.eps} {stock.overview?.currency}
+                  {formatCurrency(stock.overview?.eps)}
                 </Typography>
             }
           />
@@ -104,7 +113,7 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
             left="High:"
             right={
               <>
-                $ {stock.quote?.high} {stock.overview?.currency}
+                {formatCurrency(stock.quote?.high)}
               </>
             }
           />
@@ -112,7 +121,7 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
             left="Low:"
             right={
               <>
-                $ {stock.quote?.low} {stock.overview?.currency}
+                {formatCurrency(stock.quote?.low)}
               </>
             }
           />

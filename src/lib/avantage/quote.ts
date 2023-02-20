@@ -24,8 +24,7 @@ interface RawQuoteResponse {
   };
 }
 
-const formatCurrency = (raw: string): string =>
-  raw ? Number(raw).toFixed(2) : "";
+
 
 export const stockQuote = async (
   symbol: string,
@@ -42,10 +41,10 @@ export const stockQuote = async (
   console.log("Quote response received", quote);
 
   return {
-    high: formatCurrency(quote["03. high"]),
-    low: formatCurrency(quote["04. low"]),
-    price: formatCurrency(quote["05. price"]),
-    change: formatCurrency(quote["09. change"]),
+    high: quote["03. high"],
+    low: quote["04. low"],
+    price: quote["05. price"],
+    change: quote["09. change"],
     change_percent: quote["10. change percent"],
   };
 };
