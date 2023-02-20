@@ -38,7 +38,7 @@ jobs:
       - name: ☁️ checkout repository
         uses: actions/checkout@v3
 
-      - name: 🔧 setup node ${{matrix.node-version}}
+      - name: 🔧 setup node
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
@@ -48,3 +48,16 @@ jobs:
 
       - name: 🔍 lint code
         run: npm run lint
+  
+  cypress-run:
+    name: Cypress e2e tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: ☁️ checkout repository
+        uses: actions/checkout@v3
+
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
