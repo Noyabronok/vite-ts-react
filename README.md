@@ -21,7 +21,7 @@ https://noyabronok.github.io/vite-ts-react/
 ## Alpha Vantage Limitations
 By default, the application connects to Alpha Vantage API to discover stocks.  There are a few issues with this API
 
-1. Limited for demo customers, and does't provide data when requested with high frequency.  E.G. picking 3 stocks quickly back to back.  This can be remedied by [providing paid api key](#alpha-vantage-api-key)
+1. Limited for demo customers, and does't provide data when requested with high frequency e.g. picking 3 stocks quickly back to back.  This can be remedied by [providing paid api key](#alpha-vantage-api-key)
 1. Not all stocks have details, especially ones with a period `(.)` in the symbol.  There is no workaround for this issue.
 
 ## Alpha Vantage api key
@@ -31,7 +31,7 @@ If you own a paid version of Alpha Vantage api key, you can supply it to the app
 
 ![image](https://user-images.githubusercontent.com/1195319/219965648-1a327121-b1b9-4eb3-a38a-07934231de73.png)
 
-To get around live API limitations so you can get a quick sense of application behavior, toggle on Mock Mode and search for `Palantir` stocks.
+To get around live API limitations in order to get a quick sense of application behavior, toggle on Mock Mode and search for `Palantir` stocks.
 
 # Development
 ## Prerequisites: 
@@ -92,8 +92,6 @@ Here are some of the things that could be done to improve this application
 1. add cypress tests
 1. add unit tests
 1. extra: add stock details loading feedback
-1. extra: refactor mockMode to provide stock details from avantage client instead of from Stock Picker
 1. extra: light mode toggle
 1. extra: performance: cache selected stock details
-1. extra: performance: parallel calls for stock details / consider [useQuery](https://tanstack.com/query/v4/docs/react/reference/useQuery)
 

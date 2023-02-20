@@ -84,6 +84,14 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
               </>
             }
           />
+          <StockRow
+            left="EPS:"
+            right={
+                <Typography sx={{ fontSize: "1rem" }} color={Number(stock.overview?.eps) >=0 ? "#66bb6a" : "error"}>
+                  $ {stock.overview?.eps} {stock.overview?.currency}
+                </Typography>
+            }
+          />
 
           <StockRow
             left={

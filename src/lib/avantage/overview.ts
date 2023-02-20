@@ -5,6 +5,7 @@ export interface StockOverview {
   exchange: string;
   currency: string;
   country: string;
+  eps: string;
 }
 
 // there are more items returned but we don't need them
@@ -13,6 +14,7 @@ interface RawOverviewResponse {
   Exchange: string;
   Currency: string;
   Country: string;
+  EPS: string;
 }
 
 export const stockOverview = async (
@@ -33,5 +35,6 @@ export const stockOverview = async (
     exchange: response?.Exchange,
     currency: response?.Currency,
     country: response?.Country,
+    eps: response?.EPS,
   };
 };
