@@ -17,6 +17,7 @@ https://noyabronok.github.io/vite-ts-react/
 1. Observe stock details
 1. Remove selected stocks by clicking the X button ![image](https://user-images.githubusercontent.com/1195319/219965605-33bc6cf8-0ea9-4f4b-964d-5ac22eb37328.png)
  on a selected symbol
+1. The url can be bookmarked or shared with others, since it contains selected stocks
 
 ## Alpha Vantage Limitations
 By default, the application connects to Alpha Vantage API to discover stocks.  There are a few issues with this API

@@ -23,15 +23,6 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
   const { overviewData } = useStockOverview(stock, mockMode);
   const { quoteData } = useStockQuote(stock, mockMode);
 
-  const formatCurrency = useCallback((raw: string | number | undefined) => {
-    if (!raw) return "";
-
-    const amount = Math.abs(Number(raw)).toFixed(2);
-    const sign = Number(raw) < 0 ? "-" : "";
-  
-    return `${sign} $ ${amount} ${stock.overview?.currency}`;
-  },[stock])
-
   // update stock details with retrieved data
   useEffect(() => {
     if (!stock.quote && quoteData) {
@@ -47,6 +38,15 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
     }
   }, [onStockUpdated, overviewData, quoteData, stock]);
 
+  const formatCurrency = useCallback((raw: string | number | undefined) => {
+    if (!raw) return "";
+
+    const amount = Math.abs(Number(raw)).toFixed(2);
+    const sign = Number(raw) < 0 ? "-" : "";
+  
+    return `${sign} $ ${amount} ${stock.overview?.currency}`;
+  },[stock])
+  
   let changeArrow = <></>;
 
   if (stock.quote?.change_percent) {
