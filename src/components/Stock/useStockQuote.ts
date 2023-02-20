@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { StockQuote, stockQuote, StockType } from "../../lib/avantage";
 
 export function useStockQuote(stock: StockType, mockMode: boolean) {
-  const [quote, setQuote] = useState<StockQuote | null>(null);
+  const [quoteData, setQuoteData] = useState<StockQuote | undefined>(
+    stock.quote
+  );
   const [quoteLoading, setQuoteLoading] = useState(false);
   const [quoteError, setQuoteError] = useState<Error | null>(null);
 
@@ -11,8 +13,8 @@ export function useStockQuote(stock: StockType, mockMode: boolean) {
   useEffect(() => {
     setQuoteLoading(false);
     setQuoteError(null);
-    
-    if (quote) {
+
+    if (quoteData) {
       return;
     }
 
@@ -27,7 +29,7 @@ export function useStockQuote(stock: StockType, mockMode: boolean) {
           quoteSignal,
           mockMode
         );
-        setQuote(quoteResult);
+        setQuoteData(quoteResult);
       } catch (error) {
         console.error(
           `Failed quote fetch for stock [${stockSymbol}]`,
@@ -44,7 +46,7 @@ export function useStockQuote(stock: StockType, mockMode: boolean) {
     return () => {
       quoteAbortController.abort();
     };
-  }, [mockMode, quote, stockSymbol]);
+  }, [mockMode, quoteData, stockSymbol]);
 
-  return [quoteLoading, quoteError, quote];
+  return { quoteLoading, quoteError, quoteData };
 }

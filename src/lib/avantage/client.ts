@@ -44,6 +44,10 @@ export const avantageFetch = async <T>(
   if (mockMode) {
     return new Promise<T>((resolve, reject) => {
       setTimeout(() => {
+        if (abortSignal.aborted) {
+          reject(new Error('mock avantage client aborted by client'));
+        }
+
         if (operation === "SEARCH") {
           const uCaseSearchString = input.toUpperCase();
           const matchingStocks = mockSearchResults.filter(
@@ -66,7 +70,7 @@ export const avantageFetch = async <T>(
           );
           return resolve({ "Global Quote": quote } as T);
         } else {
-          throw new Error("avantage client - unsupported operation");
+          throw new Error("mock avantage client - unsupported operation");
         }
       }, MOCK_DELAY);
     });

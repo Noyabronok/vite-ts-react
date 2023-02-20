@@ -8,7 +8,8 @@ import { Typography } from "@mui/material";
 import StockRow from "../StockRow/StockRow";
 import type { StockType } from "../../lib/avantage";
 import { useEffect } from "react";
-import { stockOverview, stockQuote } from "../../lib/avantage";
+import { useStockOverview } from "./useStockOverview";
+import { useStockQuote } from "./useStockQuote";
 
 export interface StockProps {
   stock: StockType;
@@ -18,51 +19,24 @@ export interface StockProps {
 
 export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
   const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
+  // retrieve stock details
+  const { overviewData } = useStockOverview(stock, mockMode);
+  const { quoteData } = useStockQuote(stock, mockMode);
 
+  // update stock details with retrieved data
   useEffect(() => {
-    if (stock.overview || stock.quote) {
-      return; // we already have the data, so nothing to query
+    if (!stock.quote && quoteData) {
+      onStockUpdated({
+        ...stock,
+        quote: quoteData,
+      });
+    } else if (!stock.overview && overviewData) {
+      onStockUpdated({
+        ...stock,
+        overview: overviewData,
+      });
     }
-
-    const overviewAbortController = new AbortController();
-    const overviewSignal = overviewAbortController.signal;
-
-    const quoteAbortController = new AbortController();
-    const quoteSignal = quoteAbortController.signal;
-
-    const fetchDetails = async () => {
-      try {
-        //TODO use Promise.allSettled to fetch in parallel
-        let overview = stock.overview;
-        if (!overview) {
-          overview = await stockOverview(stock.symbol, overviewSignal, mockMode);
-        }
-
-        let quote = stock.quote;
-        if (!stock.quote) {
-          quote = await stockQuote(stock.symbol, quoteSignal, mockMode);
-        }
-
-        onStockUpdated({
-          ...stock,
-          overview,
-          quote,
-        });
-      } catch (error) {
-        console.error(
-          `Failed detail fetch for stock [${stock.symbol}]`,
-          (error as Error)?.message
-        );
-      }
-    };
-
-    fetchDetails();
-
-    return () => {
-      overviewAbortController.abort();
-      quoteAbortController.abort();
-    };
-  }, [mockMode, onStockUpdated, stock]);
+  }, [onStockUpdated, overviewData, quoteData, stock]);
 
   let changeArrow = <></>;
 

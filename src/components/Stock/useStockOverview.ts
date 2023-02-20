@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { StockOverview, stockOverview, StockType } from "../../lib/avantage";
 
 export function useStockOverview(stock: StockType, mockMode: boolean) {
-  const [overview, setOverview] = useState<StockOverview | null>(null);
+  const [overviewData, setOverviewData] = useState<StockOverview | undefined>(
+    stock.overview
+  );
   const [overviewLoading, setOverviewLoading] = useState(false);
   const [overviewError, setOverviewError] = useState<Error | null>(null);
 
@@ -12,7 +14,7 @@ export function useStockOverview(stock: StockType, mockMode: boolean) {
     setOverviewLoading(false);
     setOverviewError(null);
 
-    if (overview) {
+    if (overviewData) {
       return;
     }
 
@@ -27,7 +29,7 @@ export function useStockOverview(stock: StockType, mockMode: boolean) {
           overviewSignal,
           mockMode
         );
-        setOverview(overviewResult);
+        setOverviewData(overviewResult);
       } catch (error) {
         console.error(
           `Failed overview fetch for stock [${stockSymbol}]`,
@@ -44,7 +46,7 @@ export function useStockOverview(stock: StockType, mockMode: boolean) {
     return () => {
       overviewAbortController.abort();
     };
-  }, [mockMode, overview, stockSymbol]);
+  }, [mockMode, overviewData, stockSymbol]);
 
-  return [overviewLoading, overviewError, overview];
+  return { overviewLoading, overviewError, overviewData };
 }
