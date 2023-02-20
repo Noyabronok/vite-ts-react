@@ -2,7 +2,7 @@ import mockSearchResults from "./mocks/search.json";
 import mockOverviews from "./mocks/overviews.json";
 import mockQuotes from "./mocks/quotes.json";
 
-const MOCK_DELAY = 400;
+const MOCK_DELAY = 200;
 
 export type FetchOperation = "SEARCH" | "OVERVIEW" | "QUOTE";
 
