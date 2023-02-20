@@ -38,15 +38,18 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
     }
   }, [onStockUpdated, overviewData, quoteData, stock]);
 
-  const formatCurrency = useCallback((raw: string | number | undefined) => {
-    if (!raw) return "";
+  const formatCurrency = useCallback(
+    (raw: string | number | undefined) => {
+      if (!raw) return "";
 
-    const amount = Math.abs(Number(raw)).toFixed(2);
-    const sign = Number(raw) < 0 ? "-" : "";
-  
-    return `${sign} $ ${amount} ${stock.overview?.currency}`;
-  },[stock])
-  
+      const amount = Math.abs(Number(raw)).toFixed(2);
+      const sign = Number(raw) < 0 ? "- " : "";
+
+      return `${sign}$ ${amount} ${stock.overview?.currency || ''}`;
+    },
+    [stock]
+  );
+
   let changeArrow = <></>;
 
   if (stock.quote?.change_percent) {
@@ -58,13 +61,17 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
   }
 
   return (
-    <Card component="article">
+    <Card component="article" aria-label={stock.symbol}>
       <StockHeader stock={stock} />
       <CardContent>
         <Grid container spacing={0}>
-          <StockRow left="Country:" right={stock.overview?.country} pb={2} />
           <StockRow
-            left="Price:"
+            left="Country"
+            right={stock.overview?.country}
+            pb={2}
+          />
+          <StockRow
+            left="Price"
             right={
               <Typography sx={{ fontSize: "1.2rem" }}>
                 {formatCurrency(stock.quote?.price)}
@@ -72,11 +79,11 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
             }
           />
           <StockRow
-            left="Change:"
+            left="Change"
             right={
               <>
                 <Typography sx={{ fontSize: "1rem" }}>
-                {formatCurrency(stock.quote?.change)}
+                  {formatCurrency(stock.quote?.change)}
                 </Typography>
                 <Typography
                   color={priceIncreased ? "#66bb6a" : "error"}
@@ -94,11 +101,14 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
             }
           />
           <StockRow
-            left="EPS:"
+            left="EPS"
             right={
-                <Typography sx={{ fontSize: "1rem" }} color={Number(stock.overview?.eps) >=0 ? "#66bb6a" : "error"}>
-                  {formatCurrency(stock.overview?.eps)}
-                </Typography>
+              <Typography
+                sx={{ fontSize: "1rem" }}
+                color={Number(stock.overview?.eps) >= 0 ? "#66bb6a" : "error"}
+              >
+                {formatCurrency(stock.overview?.eps)}
+              </Typography>
             }
           />
 
@@ -110,20 +120,12 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
             }
           />
           <StockRow
-            left="High:"
-            right={
-              <>
-                {formatCurrency(stock.quote?.high)}
-              </>
-            }
+            left="High"
+            right={<>{formatCurrency(stock.quote?.high)}</>}
           />
           <StockRow
-            left="Low:"
-            right={
-              <>
-                {formatCurrency(stock.quote?.low)}
-              </>
-            }
+            left="Low"
+            right={<>{formatCurrency(stock.quote?.low)}</>}
           />
         </Grid>
       </CardContent>

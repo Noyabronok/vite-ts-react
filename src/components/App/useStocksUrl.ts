@@ -14,7 +14,7 @@ export function useStocksUrl() {
 
   const onSelectedStocksChanged = useCallback((selectedStocks: StockType[]) => {
     const selectedStocksAsUrlParams = selectedStocks.map((stock) =>
-      JSON.stringify({ symbol: stock.symbol, name: stock.name })
+      ({ symbol: stock.symbol, name: stock.name })
     );
     searchParams.set(STOCKS_URL_PARAM_KEY, JSON.stringify(selectedStocksAsUrlParams));
   
