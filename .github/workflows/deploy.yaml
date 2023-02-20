@@ -29,7 +29,7 @@ jobs:
       - name: 🔍 Contrast Scan Action
         uses: Contrast-Security-OSS/contrastscan-action@v2.0.3
         with:
-          artifact: dist/**/**
+          artifact: dist/index.html
           apiKey: ${{ secrets.CONTRAST_API_KEY }}
           orgId: ${{ secrets.CONTRAST_ORGANIZATION_ID }}
           authHeader: ${{ secrets.CONTRAST_AUTH_HEADER }}
