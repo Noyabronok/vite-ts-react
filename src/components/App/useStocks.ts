@@ -1,21 +1,24 @@
 import type { StockType } from "../../lib/avantage";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useStocksUrl } from "./useStocksUrl";
 
 export function useStocks(mockMode: boolean) {
-  const {stocksFromUrlParams, onSelectedStocksChanged} = useStocksUrl();
+  const { stocksFromUrlParams, onSelectedStocksChanged } = useStocksUrl();
   const [selectedStocks, setSelectedStocks] =
     useState<StockType[]>(stocksFromUrlParams);
+  const mockModeRef = useRef(mockMode);
 
-  // clear selections on mockMode toggle
+  // clear selections on mockMode toggle, but not on initial render
   useEffect(() => {
-    setSelectedStocks([]);
+    if (mockModeRef.current !== mockMode) {
+      setSelectedStocks([]);
+    }
   }, [mockMode]);
 
   // update the URL with selection change
   useEffect(() => {
     onSelectedStocksChanged(selectedStocks);
-  },[onSelectedStocksChanged, selectedStocks])
+  }, [onSelectedStocksChanged, selectedStocks]);
 
   // add or remove stocks to selected list per user choice
   const updateSelectedStocks = useCallback(
@@ -48,5 +51,3 @@ export function useStocks(mockMode: boolean) {
 
   return { selectedStocks, updateSelectedStocks, updateStock };
 }
-
-
