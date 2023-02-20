@@ -1,12 +1,11 @@
-// Update matching options if we receive new search results or stock selection updated by user
-// 1. remove already selected stocksmap discovered stocks to selectOptions
-// 2. map to and update selection options
-// Important: we don't want this defined inside useEffect's async
-//            in order to avoid stale selectedSymbols closure
-
 import { useEffect, useState } from "react";
 import { StockType } from "../../lib/avantage";
 
+// Update matching options if we receive new search results or stock selection updated by user
+// 1. remove already selected stocks
+// 2. map to and update search box selection options
+// Important: we don't want this defined inside useSearchStocks
+//            in order to avoid stale selectedStocks closure
 export function useStockSelectOptions(
   selectedStocks: StockType[],
   matchingStocks: StockType[]

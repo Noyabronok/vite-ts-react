@@ -62,7 +62,7 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
       overviewAbortController.abort();
       quoteAbortController.abort();
     };
-  }, [onStockUpdated, stock]);
+  }, [mockMode, onStockUpdated, stock]);
 
   let changeArrow = <></>;
 

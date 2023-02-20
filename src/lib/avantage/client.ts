@@ -40,6 +40,7 @@ export const avantageFetch = async <T>(
   abortSignal: AbortSignal,
   mockMode: boolean
 ) => {
+  // return some mock responses instead of calling the alpha vantage api
   if (mockMode) {
     return new Promise<T>((resolve, reject) => {
       setTimeout(() => {
@@ -60,7 +61,6 @@ export const avantageFetch = async <T>(
           );
           return resolve(overview as T);
         } else if (operation === "QUOTE") {
-          console.log("ALEX QUOTE SEARCH", input);
           const quote = mockQuotes.find(
             (quote) => quote["01. symbol"] === input
           );
