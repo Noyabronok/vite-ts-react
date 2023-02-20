@@ -59,7 +59,7 @@ You can run any of the following npm scripts with `npm run {script-name}`
 ## Unit Testing
 - Unit testing is supported by [vitest](https://vitest.dev/).  
 - Tests will automatically run when you commit locally or create PRs against `develop` or `main` branches.  
-- Tests are discovered in files with the following extensionse:  
+- Tests are discovered in files with the following extensions:  
  ```
  *.test.tsx
  *.test.ts
@@ -80,7 +80,7 @@ npm run test:dev
 - TODO!!!
 
 ## Deployment
-A static website is built in the `dist` folder when `npm run build` is run.  While you can deploy this anywhere you choose, this repo is currently configured to deploy to Github Pages via Github Actions.  The Deploy workflow, as defined in [.github/workflows/deploy.yaml](.github/workflows/deploy.yaml)
+A static website is built in the `dist` folder when `npm run build` is run.  While you can deploy this anywhere you choose, this repo is currently configured to deploy to Github Pages via Github Actions when a pull request is merged into the main branch.  The Deploy workflow, as defined in [.github/workflows/deploy.yaml](.github/workflows/deploy.yaml)
 1. Test the main branch  
 1. Deploy to Github Pages  
 1. Bump minor version in `develop` branch
