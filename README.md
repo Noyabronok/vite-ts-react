@@ -7,8 +7,7 @@ This is a stock comparing application exercise, written in Typescript, React.js,
 Deployed application is publicly accessible on Github Pages at:  
 https://noyabronok.github.io/vite-ts-react/
 
-![image](https://user-images.githubusercontent.com/1195319/219965728-60430281-fcf8-419a-b48a-30eed49ebcdc.png)
-
+![image](https://user-images.githubusercontent.com/1195319/220213451-61d8f905-7c62-451a-8205-e0b823bcff64.png)
 
 # How to use
 
@@ -46,14 +45,16 @@ To get around live API limitations in order to get a quick sense of application 
 ## Run options
 You can run any of the following npm scripts with `npm run {script-name}`  
 ```
- - dev         runs the app in dev mode
- - lint        runs linter against your code
- - test        runs tests
- - test:dev    runs tests in watch mode, useful while writing tests
- - coverage    runs tests with coverage
- - build       creates a build for dedployment in the dist folder
- - preview     hosts the dist folder for a quick check prior to deploy
- - deploy      (for CI/CD) deploys the build to github pages 
+ - dev           runs the app in dev mode
+ - lint          runs linter against your code
+ - test          runs tests
+ - test:dev      runs tests in watch mode, useful while writing tests
+ - coverage      runs tests with coverage
+ - cypress:open  open cypress UI for interactive e2e testing
+ - cypress       runs e2e tests in headless mode
+ - build         creates a build for dedployment in the dist folder
+ - preview       hosts the dist folder for a quick check prior to deploy
+ - deploy        (for CI/CD) deploys the build to github pages 
 ```
 
 ## Unit Testing
@@ -77,10 +78,11 @@ npm run test:dev
 ## Functional Testing
 
 - Functional testing (aka e2e) is supported by Cypress.io
-- TODO!!!
+- Test files located in the `cypress/e2e` folder
+- You can run in UI mode with `npm run cypress:open` or headless with `npm run cypress`.  If you need to adjust the url this can be done inline with `-- --config baseUrl={app_url}` switch, or permanently changed in [cypress.config.ts](cypress.config.ts)
 
 ## Deployment
-A static website is built in the `dist` folder when `npm run build` is run.  While you can deploy this anywhere you choose, this repo is currently configured to deploy to Github Pages via Github Actions when a pull request is merged into the main branch.  The Deploy workflow, as defined in [.github/workflows/deploy.yaml](.github/workflows/deploy.yaml)
+A static website is built in the `dist` folder when `npm run build` is run.  While you can deploy this anywhere you choose, this repo is currently configured to deploy to Github Pages via Github Actions when a pull request is merged into the main branch.  The Deploy workflow, as defined in [.github/workflows/deploy.yaml](.github/workflows/deploy.yaml) with the following steps
 1. Test the main branch  
 1. Deploy to Github Pages  
 1. Bump minor version in `develop` branch
@@ -95,4 +97,3 @@ Here are some of the things that could be done to improve this application
 1. extra: add stock details loading feedback
 1. extra: light mode toggle
 1. extra: performance: cache selected stock details
-
