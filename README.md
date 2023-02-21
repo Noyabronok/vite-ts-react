@@ -21,7 +21,7 @@ https://noyabronok.github.io/vite-ts-react/
 ## Alpha Vantage Limitations
 By default, the application connects to Alpha Vantage API to discover stocks.  There are a few issues with this API
 
-1. Limited for demo customers, and does't provide data when requested with high frequency e.g. picking 3 stocks quickly back to back.  This can be remedied by [providing paid api key](#alpha-vantage-api-key)
+1. Limited for demo customers, and does't provide data when requested with high frequency e.g. picking 3 stocks quickly back to back.  This can be remedied by [providing a paid api key](#alpha-vantage-api-key)
 1. Not all stocks have details, especially ones with a period `(.)` in the symbol.  There is no workaround for this issue.
 
 ## Alpha Vantage api key
@@ -57,10 +57,12 @@ You can run any of the following npm scripts with `npm run {script-name}`
  - deploy        (for CI/CD) deploys the build to github pages 
 ```
 
-## Unit Testing
+## Linting and Unit Testing
+- ESLint provides linting rules.
 - Unit testing is supported by [vitest](https://vitest.dev/).  
-- Tests will automatically run when you commit locally or create PRs against `develop` or `main` branches.  
-- Tests are discovered in files with the following extensions:  
+- Lint/Tests will automatically run when you commit locally or create PRs against `develop` or `main` branches.  
+- You can find lint/test/coverage result in the Actions tab
+- Tests files have the following extensions:  
  ```
  *.test.tsx
  *.test.ts
@@ -87,6 +89,8 @@ A static website is built in the `dist` folder when `npm run build` is run.  Whi
 1. Deploy to Github Pages  
 1. Bump minor version in `develop` branch
 
+[![Deploy](https://github.com/Noyabronok/vite-ts-react/actions/workflows/deploy.yaml/badge.svg?branch=main)](https://github.com/Noyabronok/vite-ts-react/actions/workflows/deploy.yaml) this badge, like the one at the top of this README file, provides 
+
 ## Contributing
 The `main` branch is used for deployment only, and doesn't allow direct push.  You must create a PR against it.  A good approach is to push your code into `develop` branch first, and then create a PR from `develop` into `main`.
 
@@ -95,6 +99,10 @@ Here are some of the things that could be done to improve this application
 1. feature: add stock details loading feedback
 1. feature: light mode toggle
 1. tech: refactor stocks hooks with context provider
-1. tech: add more e2e tests
 1. tech: add more unit tests
+1. tech: add more e2e tests
 1. performance: cache selected stock details
+1. accessibility: keyboard navigation
+1. accessibility: update contrast
+1. localization: currency symbol based on code
+

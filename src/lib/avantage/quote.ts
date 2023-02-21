@@ -1,4 +1,4 @@
-import { avantageFetch } from "./client";
+import { avantageFetch, RawQuoteResponse } from "./client";
 
 export interface StockQuote {
   high: string;
@@ -7,23 +7,6 @@ export interface StockQuote {
   change: string;
   change_percent: string;
 }
-
-// there are more items returned but we don't need them
-interface RawQuoteResponse {
-  "Global Quote": {
-    "01. symbol": string;
-    "02. open": string;
-    "03. high": string;
-    "04. low": string;
-    "05. price": string;
-    "06. volume": string;
-    "07. latest trading day": string;
-    "08. previous close": string;
-    "09. change": string;
-    "10. change percent": string;
-  };
-}
-
 
 // get stock quote details from alpha vantage, and map usable fields
 export const stockQuote = async (

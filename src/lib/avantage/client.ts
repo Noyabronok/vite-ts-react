@@ -6,6 +6,46 @@ const MOCK_DELAY = 200;
 
 export type FetchOperation = "SEARCH" | "OVERVIEW" | "QUOTE";
 
+export interface SearchResultItem {
+  "1. symbol": string;
+  "2. name": string;
+  "3. type": string;
+  "4. region": string;
+  "5. marketOpen": string;
+  "6. marketClose": string;
+  "7. timezone": string;
+  "8. currency": string;
+  "9. matchScore": string;
+}
+
+export interface RawSearchResponse {
+  bestMatches: SearchResultItem[];
+}
+
+// there are more items returned but we don't need them
+export interface RawOverviewResponse {
+  Description: string;
+  Currency: string;
+  Country: string;
+  EPS: string;
+  [key: string]: string;
+}
+
+export interface RawQuoteResponse {
+  "Global Quote": {
+    "01. symbol": string;
+    "02. open": string;
+    "03. high": string;
+    "04. low": string;
+    "05. price": string;
+    "06. volume": string;
+    "07. latest trading day": string;
+    "08. previous close": string;
+    "09. change": string;
+    "10. change percent": string;
+  };
+}
+
 const URL_BASE = "https://www.alphavantage.co/query?function=";
 
 // this is a "public" demo key, so OK to expose
@@ -35,7 +75,9 @@ const getApiKey = () => {
 };
 
 // a common client for alpha vantage api.  Supports mock mode for testing
-export const avantageFetch = async <T>(
+export const avantageFetch = async <
+  T extends RawSearchResponse | RawOverviewResponse | RawQuoteResponse
+>(
   operation: FetchOperation,
   input: string,
   abortSignal: AbortSignal,
@@ -46,10 +88,15 @@ export const avantageFetch = async <T>(
     return new Promise<T>((resolve, reject) => {
       setTimeout(() => {
         if (abortSignal.aborted) {
-          reject(new Error('mock avantage client aborted by client'));
+          reject(new Error("mock avantage client aborted by client"));
         }
 
         if (operation === "SEARCH") {
+          if (!input) {
+            resolve({
+              bestMatches: [] as SearchResultItem[]
+            } as T);
+          }
           const uCaseSearchString = input.toUpperCase();
           const matchingStocks = mockSearchResults.filter(
             (stock) =>
@@ -63,7 +110,7 @@ export const avantageFetch = async <T>(
         } else if (operation === "OVERVIEW") {
           const overview = mockOverviews.find(
             (overview) => overview.Symbol === input
-          );
+          ) as RawOverviewResponse;
           return resolve(overview as T);
         } else if (operation === "QUOTE") {
           const quote = mockQuotes.find(
@@ -90,6 +137,7 @@ export const avantageFetch = async <T>(
   }
 
   return fetch(url, { signal: abortSignal }).then((response) => {
+    //@ts-ignore
     return response.json() as T;
   });
   // let's handle errors higher up, no catch
