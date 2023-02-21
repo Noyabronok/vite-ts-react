@@ -25,6 +25,7 @@ interface RawSearchResponse {
   bestMatches: SearchResultItem[];
 }
 
+// get stock overview details from alpha vantage, and map usable fields
 export const stockSearch = async (
   input: string,
   abortSignal: AbortSignal,

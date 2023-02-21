@@ -16,6 +16,8 @@ export interface StockPickerProps {
 
 const MAX_STOCK_LIMIT = 3;
 
+// input search box allowing the user to search for stocks.  Once selected,
+// the stocks become tags at the start of the picker, which can be closed by user
 export default function StockPicker({
   onSelectionChanged,
   selectedStocks,

@@ -25,7 +25,7 @@ interface RawQuoteResponse {
 }
 
 
-
+// get stock quote details from alpha vantage, and map usable fields
 export const stockQuote = async (
   symbol: string,
   abortSignal: AbortSignal,
