@@ -3,6 +3,7 @@ import { stockSearch, StockType } from "../../lib/avantage";
 
 const DEBOUNCE_TIMEOUT = 400;
 
+// given a search string will retrieve matching stocks 
 export function useSearchStocks(searchString: string, mockMode: boolean) {
   const [matchingStocks, setMatchingStocks] = useState<StockType[]>([]); // raw results from search
   const [searchLoading, setSearchLoading] = useState(false);

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { StockQuote, stockQuote, StockType } from "../../lib/avantage";
 
+// retrieve stock quote details from api
 export function useStockQuote(stock: StockType, mockMode: boolean) {
   const [quoteData, setQuoteData] = useState<StockQuote | undefined>(
     stock.quote

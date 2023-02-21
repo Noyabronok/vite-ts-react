@@ -6,6 +6,7 @@ import StockPicker from "../StockPicker/StockPicker";
 import { useStocks } from "./useStocks";
 import { useMockMode } from "./useMockMode";
 
+// page layout for our application
 export default function App() {
   const {mockMode, onMockModeToggle} = useMockMode()
   const { selectedStocks, updateSelectedStocks, updateStock } =

@@ -17,9 +17,12 @@ export interface StockProps {
   mockMode: boolean;
 }
 
+// single stock card 
+// retrieves stock details when loaded if details are missing
 export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
   const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
   // retrieve stock details
+  // TODO use loading/error indicators from the hooks to provide feedback to the user
   const { overviewData } = useStockOverview(stock, mockMode);
   const { quoteData } = useStockQuote(stock, mockMode);
 

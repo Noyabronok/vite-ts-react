@@ -12,6 +12,7 @@ export interface HeaderProps {
   onMockModeToggle: () => void;
 }
 
+// provides horizontal bar at the top, including mock mode button
 export default function Header({ mockMode, onMockModeToggle }: HeaderProps) {
   return (
     <AppBar

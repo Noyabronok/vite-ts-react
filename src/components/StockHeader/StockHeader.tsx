@@ -8,6 +8,7 @@ export interface StockHeaderProps {
   stock: StockType;
 }
 
+// top of the stock card, displaying stock symbol, name, and description in a tooltip
 export default function StockHeader({ stock }: StockHeaderProps) {
   return (
     <CardHeader

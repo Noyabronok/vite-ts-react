@@ -17,6 +17,7 @@ interface RawOverviewResponse {
   EPS: string;
 }
 
+// get stock overview details from alpha vantage, and map usable fields
 export const stockOverview = async (
   symbol: string,
   abortSignal: AbortSignal,

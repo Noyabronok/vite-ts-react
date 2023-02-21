@@ -9,6 +9,7 @@ export interface StocksProps {
   mockMode: boolean;
 }
 
+// lists selected stocks in a grid
 export default function Stocks({ stocks, ...rest}: StocksProps) {
   return (
     <Container maxWidth="md" component="main">

@@ -34,6 +34,7 @@ const getApiKey = () => {
   return "&apikey=" + key;
 };
 
+// a common client for alpha vantage api.  Supports mock mode for testing
 export const avantageFetch = async <T>(
   operation: FetchOperation,
   input: string,

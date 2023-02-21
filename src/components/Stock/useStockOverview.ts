@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { StockOverview, stockOverview, StockType } from "../../lib/avantage";
 
+// retrieve stock overview details from api
 export function useStockOverview(stock: StockType, mockMode: boolean) {
   const [overviewData, setOverviewData] = useState<StockOverview | undefined>(
     stock.overview

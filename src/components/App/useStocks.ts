@@ -2,6 +2,10 @@ import type { StockType } from "../../lib/avantage";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useStocksUrl } from "./useStocksUrl";
 
+// stocks state management
+// selectedStocks -> stocks selected by the user
+// updateSelectedStocks -> method to update selected stocks
+// updateStock -> method to update details for one particular stock
 export function useStocks(mockMode: boolean) {
   const { stocksFromUrlParams, onSelectedStocksChanged } = useStocksUrl();
   const [selectedStocks, setSelectedStocks] =
