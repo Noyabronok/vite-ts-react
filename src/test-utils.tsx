@@ -13,6 +13,10 @@ import { BrowserRouter } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
+// These custom renderers add providers used in our app, so we don't have to manually
+// add them every time
+
+
 interface Props {
   children?: ReactNode;
   // any props that come into the component
