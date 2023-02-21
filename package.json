@@ -1,7 +1,7 @@
 {
   "name": "vite-ts-react",
   "private": true,
-  "version": "0.10.0",
+  "version": "0.12.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,7 @@
     "test": "vitest run",
     "test:dev": "vitest",
     "coverage": "vitest run --coverage",
-    "cypress:open": "npx cypress open",
+    "cypress:open": "npx cypress open --e2e --browser electron",
     "cypress": "npx cypress run --e2e",
     "build": "tsc && vite build",
     "preview": "vite preview",

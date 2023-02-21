@@ -92,8 +92,9 @@ The `main` branch is used for deployment only, and doesn't allow direct push.  Y
 
 # TODO
 Here are some of the things that could be done to improve this application
-1. add cypress tests
-1. add unit tests
-1. extra: add stock details loading feedback
-1. extra: light mode toggle
-1. extra: performance: cache selected stock details
+1. feature: add stock details loading feedback
+1. feature: light mode toggle
+1. tech: refactor stocks hooks with context provider
+1. tech: add more e2e tests
+1. tech: add more unit tests
+1. performance: cache selected stock details
