@@ -89,7 +89,7 @@ A static website is built in the `dist` folder when `npm run build` is run.  Whi
 1. Deploy to Github Pages  
 1. Bump minor version in `develop` branch
 
-[![Deploy](https://github.com/Noyabronok/vite-ts-react/actions/workflows/deploy.yaml/badge.svg?branch=main)](https://github.com/Noyabronok/vite-ts-react/actions/workflows/deploy.yaml) this badge, like the one at the top of this README file, provides 
+[![Deploy](https://github.com/Noyabronok/vite-ts-react/actions/workflows/deploy.yaml/badge.svg?branch=main)](https://github.com/Noyabronok/vite-ts-react/actions/workflows/deploy.yaml) this badge, like the one at the top of this README file, provides the pass/fail status of the latest deploy from the main branch.  You can click on it to get more details.
 
 ## Contributing
 The `main` branch is used for deployment only, and doesn't allow direct push.  You must create a PR against it.  A good approach is to push your code into `develop` branch first, and then create a PR from `develop` into `main`.
