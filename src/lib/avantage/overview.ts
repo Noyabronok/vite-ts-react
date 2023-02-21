@@ -1,4 +1,4 @@
-import { avantageFetch } from "./client";
+import { avantageFetch, RawOverviewResponse } from "./client";
 
 export interface StockOverview {
   description: string;
@@ -6,15 +6,6 @@ export interface StockOverview {
   currency: string;
   country: string;
   eps: string;
-}
-
-// there are more items returned but we don't need them
-interface RawOverviewResponse {
-  Description: string;
-  Exchange: string;
-  Currency: string;
-  Country: string;
-  EPS: string;
 }
 
 // get stock overview details from alpha vantage, and map usable fields

@@ -3,16 +3,6 @@ import { render, screen } from "@testing-library/react";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 
-describe("something truthy and falsy", () => {
-  it("true to be true", () => {
-    expect(true).toBe(true);
-  });
-
-  it("false to be false", () => {
-    expect(false).toBe(false);
-  });
-});
-
 describe("App", () => {
   it("renders headline", async () => {
     render(
@@ -21,11 +11,18 @@ describe("App", () => {
       </BrowserRouter>
     );
 
-    // reminder to use this for looking up what's rendered
-    // screen.debug();
-
-    // check if App components renders headline
     const header = await screen.findByText("Awesome Stock App");
     expect(header).toBeVisible();
+  });
+
+  it("contains footer", async () => {
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+
+    const footer = await screen.findByText((text) => text.includes("Build version:"));
+    expect(footer).toBeVisible();
   });
 });
