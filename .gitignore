@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 coverage
+cypress/videos
 
 # Editor directories and files
 .vscode/*
