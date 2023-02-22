@@ -14,7 +14,7 @@ export function useStockDetails(stock: StockType, doUpdateStock: boolean) {
     if (!doUpdateStock) {
       return;
     }
-    
+
     if (!stock.quote && quote) {
       updateStock({
         ...stock,
@@ -30,6 +30,6 @@ export function useStockDetails(stock: StockType, doUpdateStock: boolean) {
 
   return {
     overview,
-    quote
-  }
+    quote,
+  };
 }
