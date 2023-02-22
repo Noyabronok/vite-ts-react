@@ -17,6 +17,7 @@ https://noyabronok.github.io/vite-ts-react/
 1. Remove selected stocks by clicking the X button ![image](https://user-images.githubusercontent.com/1195319/219965605-33bc6cf8-0ea9-4f4b-964d-5ac22eb37328.png)
  on a selected symbol
 1. The url can be bookmarked or shared with others, since it contains selected stocks
+1. Stock details are cached for 20 seconds (courtesy of [swr](https://swr.vercel.app/)), but this can be adjusted with `&dedupingInterval={cache_ms}` query string in the url
 
 ## Alpha Vantage Limitations
 By default, the application connects to Alpha Vantage API to discover stocks.  There are a few issues with this API
@@ -83,6 +84,7 @@ npm run test:dev
 - Test files located in the `cypress/e2e` folder
 - You can run in UI mode with `npm run cypress:open` or headless with `npm run cypress`.  If you need to adjust the url this can be done inline with `-- --config baseUrl={app_url}` switch, or permanently changed in [cypress.config.ts](cypress.config.ts)
 
+
 ## Deployment
 A static website is built in the `dist` folder when `npm run build` is run.  While you can deploy this anywhere you choose, this repo is currently configured to deploy to Github Pages via Github Actions when a pull request is merged into the main branch.  The Deploy workflow, as defined in [.github/workflows/deploy.yaml](.github/workflows/deploy.yaml) with the following steps
 1. Test the main branch  
@@ -98,10 +100,8 @@ The `main` branch is used for deployment only, and doesn't allow direct push.  Y
 Here are some of the things that could be done to improve this application
 1. feature: add stock details loading feedback
 1. feature: light mode toggle
-1. tech: refactor stocks hooks with context provider
 1. tech: add more unit tests
 1. tech: add more e2e tests
-1. performance: cache selected stock details
 1. accessibility: keyboard navigation
 1. accessibility: update contrast
 1. localization: currency symbol based on code
