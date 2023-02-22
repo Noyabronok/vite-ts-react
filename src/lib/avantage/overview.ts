@@ -20,7 +20,6 @@ export const stockOverview = async (
     abortSignal,
     mockMode
   );
-  console.log("Overview response received", response);
 
   return {
     description: response?.Description,

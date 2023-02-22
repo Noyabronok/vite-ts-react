@@ -3,7 +3,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Container from "@mui/material/Container";
 import Snackbar from "@mui/material/Snackbar";
 import TextField from "@mui/material/TextField";
-import { useStockAPI } from "../../lib/StockAPI";
+import { useStockSelection } from "../../lib/StockSelection";
+import { useStockSearch } from "../../lib/StockSearch";
 import { useStockSelectOptions } from "./useStockSelectOptions";
 
 const MAX_STOCK_LIMIT = 3;
@@ -11,13 +12,13 @@ const MAX_STOCK_LIMIT = 3;
 // input search box allowing the user to search for stocks.  Once selected,
 // the stocks become tags at the start of the picker, which can be closed by user
 export default function StockPicker() {
+  const { selectedStocks, updateSelectedStocks } = useStockSelection();
+
   const {
     searchString,
     setSearchString,
     stockSearchResults: { matchingStocks, searchError, searchLoading },
-    selectedStocks,
-    updateSelectedStocks,
-  } = useStockAPI();
+  } = useStockSearch();
 
   // convert matching stocks to dropdown options, after filtering out already selected options
   const { matchingOptions } = useStockSelectOptions(

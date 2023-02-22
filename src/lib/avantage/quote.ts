@@ -21,7 +21,6 @@ export const stockQuote = async (
     mockMode
   );
   const quote = response?.["Global Quote"] || {};
-  console.log("Quote response received", quote);
 
   return {
     high: quote["03. high"],

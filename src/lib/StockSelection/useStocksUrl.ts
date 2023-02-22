@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { StockType } from "../../lib/avantage";
+import { StockType } from "../avantage";
 import { useSearchParams } from "react-router-dom";
 
 const STOCKS_URL_PARAM_KEY = "stocks";

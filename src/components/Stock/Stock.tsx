@@ -10,7 +10,8 @@ import type { StockType } from "../../lib/avantage";
 import { useCallback, useEffect } from "react";
 import { useStockOverview } from "./useStockOverview";
 import { useStockQuote } from "./useStockQuote";
-import { useStockAPI } from "../../lib/StockAPI";
+import { useStockSelection } from "../../lib/StockSelection";
+import { useMockMode } from "../../lib/MockMode";
 
 export interface StockProps {
   stock: StockType;
@@ -19,7 +20,9 @@ export interface StockProps {
 // single stock card 
 // retrieves stock details when loaded if details are missing
 export default function Stock({ stock }: StockProps) {
-  const {mockMode, updateStock} = useStockAPI();
+  const {mockMode} = useMockMode();
+  const {updateStock} = useStockSelection();
+
   // retrieve stock details
   // TODO use loading/error indicators from the hooks to provide feedback to the user
   const { overviewData } = useStockOverview(stock, mockMode);

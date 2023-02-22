@@ -1,4 +1,4 @@
-import type { StockType } from "../../lib/avantage";
+import type { StockType } from "../avantage";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useStocksUrl } from "./useStocksUrl";
 
@@ -17,6 +17,7 @@ export function useStocks(mockMode: boolean) {
     if (mockModeRef.current !== mockMode && selectedStocks?.length) {
       setSelectedStocks([]);
     }
+    mockModeRef.current = mockMode; // don't forget to update otherwise will stay the same forever!
   }, [mockMode, selectedStocks?.length]);
 
   // update the URL with selection change
@@ -53,5 +54,9 @@ export function useStocks(mockMode: boolean) {
     [selectedStocks]
   );
 
-  return { selectedStocks, updateSelectedStocks, updateStock };
+  return {
+    selectedStocks,
+    updateSelectedStocks,
+    updateStock,
+  };
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { stockSearch, StockType } from "../../lib/avantage";
+import { stockSearch, StockType } from "../avantage";
 
 const DEBOUNCE_TIMEOUT = 400;
 

@@ -6,11 +6,11 @@ import reactLogo from "../../assets/react.svg";
 import viteLogo from "../../assets/vite.svg";
 import muiLogo from "../../assets/mui.svg";
 import { ToggleButton } from "@mui/material";
-import { useStockAPI } from "../../lib/StockAPI";
+import { useMockMode } from "../../lib/MockMode";
 
 // provides horizontal bar at the top, including mock mode button
 export default function Header() {
-  const { mockMode, toggleMockMode } = useStockAPI();
+  const { mockMode, toggleMockMode } = useMockMode();
 
   return (
     <AppBar

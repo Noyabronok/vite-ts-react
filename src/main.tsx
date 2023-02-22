@@ -4,7 +4,9 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import App from "./components/App/App";
-import { StockAPIProvider } from "./lib/StockAPI";
+import { StockSelectionProvider } from "./lib/StockSelection";
+import { MockModeProvider } from "./lib/MockMode";
+import { StockSearchProvider } from "./lib/StockSearch";
 
 const darkTheme = createTheme({
   palette: {
@@ -33,12 +35,16 @@ const darkTheme = createTheme({
 
 // NOTE: React.StrictMode renders components twice in development to expose bugs
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <StockAPIProvider>{<App />}</StockAPIProvider>
-      </BrowserRouter>
-    </ThemeProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <ThemeProvider theme={darkTheme}>
+    <CssBaseline />
+    <BrowserRouter>
+      <MockModeProvider>
+        <StockSelectionProvider>
+          <StockSearchProvider>{<App />}</StockSearchProvider>
+        </StockSelectionProvider>
+      </MockModeProvider>
+    </BrowserRouter>
+  </ThemeProvider>
+  // </React.StrictMode>
 );
