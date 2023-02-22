@@ -12,9 +12,9 @@ describe('useMockMode',() => {
   it('should toggle', () => {
     const  { result } = renderHook(() => useMockMode());
     expect(result.current.mockMode).toBe(false);
-    act(() => result.current.onMockModeToggle())
+    act(() => result.current.toggleMockMode())
     expect(result.current.mockMode).toBe(true);
-    act(() => result.current.onMockModeToggle())
+    act(() => result.current.toggleMockMode())
     expect(result.current.mockMode).toBe(false);
   })
 });

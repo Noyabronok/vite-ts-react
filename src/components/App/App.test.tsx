@@ -1,28 +1,22 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import App from "./App";
-import { BrowserRouter } from "react-router-dom";
+import { render } from "../../test-utils";
 
 describe("App", () => {
   it("renders headline", async () => {
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
+    render(<App />);
 
     const header = await screen.findByText("Awesome Stock App");
     expect(header).toBeVisible();
   });
 
   it("contains footer", async () => {
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
+    render(<App />);
 
-    const footer = await screen.findByText((text) => text.includes("Build version:"));
+    const footer = await screen.findByText((text) =>
+      text.includes("Build version:")
+    );
     expect(footer).toBeVisible();
   });
 });

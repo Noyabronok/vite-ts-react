@@ -10,17 +10,16 @@ import type { StockType } from "../../lib/avantage";
 import { useCallback, useEffect } from "react";
 import { useStockOverview } from "./useStockOverview";
 import { useStockQuote } from "./useStockQuote";
+import { useStockAPI } from "../../lib/StockAPI";
 
 export interface StockProps {
   stock: StockType;
-  onStockUpdated: (stock: StockType) => void;
-  mockMode: boolean;
 }
 
 // single stock card 
 // retrieves stock details when loaded if details are missing
-export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
-  const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
+export default function Stock({ stock }: StockProps) {
+  const {mockMode, updateStock} = useStockAPI();
   // retrieve stock details
   // TODO use loading/error indicators from the hooks to provide feedback to the user
   const { overviewData } = useStockOverview(stock, mockMode);
@@ -29,17 +28,17 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
   // update stock details with retrieved data
   useEffect(() => {
     if (!stock.quote && quoteData) {
-      onStockUpdated({
+      updateStock({
         ...stock,
         quote: quoteData,
       });
     } else if (!stock.overview && overviewData) {
-      onStockUpdated({
+      updateStock({
         ...stock,
         overview: overviewData,
       });
     }
-  }, [onStockUpdated, overviewData, quoteData, stock]);
+  }, [updateStock, overviewData, quoteData, stock]);
 
   const formatCurrency = useCallback(
     (raw: string | number | undefined) => {
@@ -53,6 +52,7 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
     [stock]
   );
 
+  const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
   let changeArrow = <></>;
 
   if (stock.quote?.change_percent) {

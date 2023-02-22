@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import App from "./components/App/App";
+import { StockAPIProvider } from "./lib/StockAPI";
 
 const darkTheme = createTheme({
   palette: {
@@ -35,7 +36,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <BrowserRouter>{<App />}</BrowserRouter>
+      <BrowserRouter>
+        <StockAPIProvider>{<App />}</StockAPIProvider>
+      </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>
 );

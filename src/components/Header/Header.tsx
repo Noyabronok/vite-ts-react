@@ -6,14 +6,12 @@ import reactLogo from "../../assets/react.svg";
 import viteLogo from "../../assets/vite.svg";
 import muiLogo from "../../assets/mui.svg";
 import { ToggleButton } from "@mui/material";
-
-export interface HeaderProps {
-  mockMode: boolean;
-  onMockModeToggle: () => void;
-}
+import { useStockAPI } from "../../lib/StockAPI";
 
 // provides horizontal bar at the top, including mock mode button
-export default function Header({ mockMode, onMockModeToggle }: HeaderProps) {
+export default function Header() {
+  const { mockMode, toggleMockMode } = useStockAPI();
+
   return (
     <AppBar
       position="static"
@@ -30,7 +28,7 @@ export default function Header({ mockMode, onMockModeToggle }: HeaderProps) {
           selected={mockMode}
           sx={{ flexGrow: 1 }}
           onChange={() => {
-            onMockModeToggle();
+            toggleMockMode();
           }}
         >
           Mock Mode

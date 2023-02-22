@@ -4,26 +4,17 @@ import Container from "@mui/material/Container";
 import Snackbar from "@mui/material/Snackbar";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
-import { StockType } from "../../lib/avantage";
+import { useStockAPI } from "../../lib/StockAPI";
 import { useSearchStocks } from "./useSearchStocks";
 import { useStockSelectOptions } from "./useStockSelectOptions";
-
-export interface StockPickerProps {
-  onSelectionChanged: (stocks: StockType[]) => void;
-  selectedStocks: StockType[];
-  mockMode: boolean;
-}
 
 const MAX_STOCK_LIMIT = 3;
 
 // input search box allowing the user to search for stocks.  Once selected,
 // the stocks become tags at the start of the picker, which can be closed by user
-export default function StockPicker({
-  onSelectionChanged,
-  selectedStocks,
-  mockMode = false,
-}: StockPickerProps) {
+export default function StockPicker() {
   const [searchString, setSearchString] = useState<string>("");
+  const {mockMode, selectedStocks, updateSelectedStocks} = useStockAPI();
 
   // get a list of matching stocks based on user search input
   const { matchingStocks, searchError, searchLoading } = useSearchStocks(
@@ -73,7 +64,7 @@ export default function StockPicker({
         value={selectedStocks?.map((stock) => stock.symbol) || []}
         onChange={(_event: any, selectedOptions: string[]) => {
           // update selected stocks
-          onSelectionChanged(
+          updateSelectedStocks(
             selectedOptions.map((option) => {
               const [symbol, name] = option.split(" - ");
               return {

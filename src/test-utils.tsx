@@ -12,10 +12,10 @@ import {
 import { BrowserRouter } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { StockAPIProvider } from "./lib/StockAPI";
 
 // These custom renderers add providers used in our app, so we don't have to manually
 // add them every time
-
 
 interface Props {
   children?: ReactNode;
@@ -51,14 +51,16 @@ const AllTheProviders = ({ children }: Props) => {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <BrowserRouter>{children}</BrowserRouter>
+      <BrowserRouter>
+        <StockAPIProvider>{children}</StockAPIProvider>
+      </BrowserRouter>
     </ThemeProvider>
   );
 };
 
 const customRender = (
   ui: React.ReactElement,
-  options: RenderOptions
+  options?: RenderOptions
 ): RenderResult => render(ui, { wrapper: AllTheProviders, ...options });
 
 const customRenderHook = <
