@@ -57,7 +57,7 @@ export function useSearchStocks(
       controller.abort();
       setSearchLoading(false);
     };
-  }, [searchString, mockMode]);
+  }, [searchString, mockMode, matchingStocks?.length]);
 
   return { matchingStocks, searchLoading, searchError };
 }
