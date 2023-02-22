@@ -22,7 +22,10 @@ export function useSearchStocks(
   useEffect(() => {
     // nothing to search for, clear results if we had any
     if (!searchString) {
-      setMatchingStocks([]);
+      // don't clear stocks if already cleared
+      if (matchingStocks?.length) {
+        setMatchingStocks([]);
+      }
       return;
     }
 
