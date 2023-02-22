@@ -1,6 +1,7 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import { StockType } from "../avantage";
 import { useMockMode } from "./useMockMode";
+import { StockSearchResults, useSearchStocks } from "./useSearchStocks";
 import { useStocks } from "./useStocks";
 
 export interface StockContextType {
@@ -9,6 +10,9 @@ export interface StockContextType {
   selectedStocks: StockType[];
   updateSelectedStocks: (updatedStocks: StockType[]) => void;
   updateStock: (updatedStock: StockType) => void;
+  setSearchString: (searchString: string) => void;
+  searchString: string,
+  stockSearchResults: StockSearchResults,
 }
 
 const StockContext = createContext<StockContextType | undefined>(undefined);
@@ -18,12 +22,18 @@ export function StockAPIProvider({ children }: { children: ReactNode }) {
   const { selectedStocks, updateSelectedStocks, updateStock } =
     useStocks(mockMode);
 
+  const [searchString, setSearchString] = useState('');
+  const stockSearchResults = useSearchStocks(searchString, mockMode);
+
   const value = {
     mockMode,
     toggleMockMode,
     selectedStocks,
     updateSelectedStocks,
     updateStock,
+    setSearchString,
+    searchString,
+    stockSearchResults,
   };
 
   return (
@@ -33,6 +43,7 @@ export function StockAPIProvider({ children }: { children: ReactNode }) {
 
 export function useStockAPI() {
   const context = useContext(StockContext);
+
   if (context === undefined) {
     throw new Error("useStockAPI must be used within a StockAPIProvider");
   }
