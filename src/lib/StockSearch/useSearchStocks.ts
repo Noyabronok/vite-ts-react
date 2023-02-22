@@ -18,14 +18,24 @@ export function useSearchStocks(
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<Error | null>(null);
 
+  const numStocksMatching = matchingStocks?.length;
+
+  // clear results if not searching for anything
+  // separate effect because of numStocksMatching dependency
+  useEffect(() => {
+    if (!searchString) {
+      // don't clear stocks if already cleared
+      if (numStocksMatching) {
+        setMatchingStocks([]);
+      }
+      return;
+    }
+  }, [numStocksMatching, searchString]);
+
   // search for matching stock options based on user input
   useEffect(() => {
     // nothing to search for, clear results if we had any
     if (!searchString) {
-      // don't clear stocks if already cleared
-      if (matchingStocks?.length) {
-        setMatchingStocks([]);
-      }
       return;
     }
 
@@ -57,7 +67,7 @@ export function useSearchStocks(
       controller.abort();
       setSearchLoading(false);
     };
-  }, [searchString, mockMode, matchingStocks?.length]);
+  }, [searchString, mockMode]);
 
   return { matchingStocks, searchLoading, searchError };
 }

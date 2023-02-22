@@ -1,6 +1,7 @@
 import type { StockType } from "../avantage";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useStocksUrl } from "./useStocksUrl";
+import { useSWRConfig } from "swr";
 
 // stocks state management
 // selectedStocks -> stocks selected by the user
@@ -11,14 +12,22 @@ export function useStocks(mockMode: boolean) {
   const [selectedStocks, setSelectedStocks] =
     useState<StockType[]>(stocksFromUrlParams);
   const mockModeRef = useRef(mockMode);
+  const { mutate: swrMutate } = useSWRConfig();
 
   // clear selections on mockMode toggle, but not on initial render
   useEffect(() => {
     if (mockModeRef.current !== mockMode && selectedStocks?.length) {
       setSelectedStocks([]);
+
+      // clear swr cache
+      swrMutate(
+        key => true, // which cache keys are updated
+        undefined, // update cache data to `undefined`
+        { revalidate: false } // do not revalidate
+      )
     }
     mockModeRef.current = mockMode; // don't forget to update otherwise will stay the same forever!
-  }, [mockMode, selectedStocks?.length]);
+  }, [mockMode, swrMutate, selectedStocks?.length]);
 
   // update the URL with selection change
   useEffect(() => {

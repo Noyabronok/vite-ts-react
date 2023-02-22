@@ -7,41 +7,19 @@ import ArrowDownward from "@mui/icons-material/ArrowDownward";
 import { Typography } from "@mui/material";
 import StockRow from "../StockRow/StockRow";
 import type { StockType } from "../../lib/avantage";
-import { useCallback, useEffect } from "react";
-import { useStockOverview } from "./useStockOverview";
-import { useStockQuote } from "./useStockQuote";
-import { useStockSelection } from "../../lib/StockSelection";
-import { useMockMode } from "../../lib/MockMode";
+import { useCallback } from "react";
+import { useStockDetails } from "../../lib/StockDetails/useStockDetails";
 
 export interface StockProps {
   stock: StockType;
 }
 
-// single stock card 
+// single stock card
 // retrieves stock details when loaded if details are missing
 export default function Stock({ stock }: StockProps) {
-  const {mockMode} = useMockMode();
-  const {updateStock} = useStockSelection();
-
-  // retrieve stock details
-  // TODO use loading/error indicators from the hooks to provide feedback to the user
-  const { overviewData } = useStockOverview(stock, mockMode);
-  const { quoteData } = useStockQuote(stock, mockMode);
-
-  // update stock details with retrieved data
-  useEffect(() => {
-    if (!stock.quote && quoteData) {
-      updateStock({
-        ...stock,
-        quote: quoteData,
-      });
-    } else if (!stock.overview && overviewData) {
-      updateStock({
-        ...stock,
-        overview: overviewData,
-      });
-    }
-  }, [updateStock, overviewData, quoteData, stock]);
+  // load stock details
+  // TODO use loading/error indicators from the hook to provide feedback to the user
+  useStockDetails(stock, true);
 
   const formatCurrency = useCallback(
     (raw: string | number | undefined) => {
@@ -50,7 +28,7 @@ export default function Stock({ stock }: StockProps) {
       const amount = Math.abs(Number(raw)).toFixed(2);
       const sign = Number(raw) < 0 ? "- " : "";
 
-      return `${sign}$ ${amount} ${stock.overview?.currency || ''}`;
+      return `${sign}$ ${amount} ${stock.overview?.currency || ""}`;
     },
     [stock]
   );
@@ -71,11 +49,7 @@ export default function Stock({ stock }: StockProps) {
       <StockHeader stock={stock} />
       <CardContent>
         <Grid container spacing={0}>
-          <StockRow
-            left="Country"
-            right={stock.overview?.country}
-            pb={2}
-          />
+          <StockRow left="Country" right={stock.overview?.country} pb={2} />
           <StockRow
             left="Price"
             right={

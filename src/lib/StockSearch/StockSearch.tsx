@@ -14,7 +14,6 @@ const StockSearch = createContext<StockSearchType | undefined>(undefined);
 // kept separate from StockSelection to avoid rerendering selected stock components
 export function StockSearchProvider({ children }: { children: ReactNode }) {
   const { mockMode } = useMockMode();
-
   const [searchString, setSearchString] = useState('');
   const stockSearchResults = useSearchStocks(searchString, mockMode);
 
