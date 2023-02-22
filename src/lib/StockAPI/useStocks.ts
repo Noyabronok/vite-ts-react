@@ -14,10 +14,10 @@ export function useStocks(mockMode: boolean) {
 
   // clear selections on mockMode toggle, but not on initial render
   useEffect(() => {
-    if (mockModeRef.current !== mockMode) {
+    if (mockModeRef.current !== mockMode && selectedStocks?.length) {
       setSelectedStocks([]);
     }
-  }, [mockMode]);
+  }, [mockMode, selectedStocks?.length]);
 
   // update the URL with selection change
   useEffect(() => {
