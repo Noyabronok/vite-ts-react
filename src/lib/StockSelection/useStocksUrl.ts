@@ -15,7 +15,7 @@ export function useStocksUrl() {
     searchParams.get(STOCKS_URL_PARAM_KEY) || "[]"
   );
 
-  const onSelectedStocksChanged = useCallback(
+  const updateUrlWithStockSelection = useCallback(
     (selectedStocks: StockType[]) => {
       const selectedStocksAsUrlParams = selectedStocks.map((stock) => ({
         symbol: stock.symbol,
@@ -38,5 +38,5 @@ export function useStocksUrl() {
     [searchParams, setSearchParams]
   );
 
-  return { stocksFromUrlParams, onSelectedStocksChanged };
+  return { stocksFromUrlParams, updateUrlWithStockSelection };
 }

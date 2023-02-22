@@ -7,7 +7,7 @@ import { useStocksUrl } from "./useStocksUrl";
 // updateSelectedStocks -> method to update selected stocks
 // updateStock -> method to update details for one particular stock
 export function useStocks(mockMode: boolean) {
-  const { stocksFromUrlParams, onSelectedStocksChanged } = useStocksUrl();
+  const { stocksFromUrlParams, updateUrlWithStockSelection } = useStocksUrl();
   const [selectedStocks, setSelectedStocks] =
     useState<StockType[]>(stocksFromUrlParams);
   const mockModeRef = useRef(mockMode);
@@ -22,8 +22,8 @@ export function useStocks(mockMode: boolean) {
 
   // update the URL with selection change
   useEffect(() => {
-    onSelectedStocksChanged(selectedStocks);
-  }, [onSelectedStocksChanged, selectedStocks]);
+    updateUrlWithStockSelection(selectedStocks);
+  }, [updateUrlWithStockSelection, selectedStocks]);
 
   // add or remove stocks to selected list per user choice
   const updateSelectedStocks = useCallback(

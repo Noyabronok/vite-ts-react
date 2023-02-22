@@ -35,16 +35,16 @@ const darkTheme = createTheme({
 
 // NOTE: React.StrictMode renders components twice in development to expose bugs
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  // <React.StrictMode>
-  <ThemeProvider theme={darkTheme}>
-    <CssBaseline />
-    <BrowserRouter>
-      <MockModeProvider>
-        <StockSelectionProvider>
-          <StockSearchProvider>{<App />}</StockSearchProvider>
-        </StockSelectionProvider>
-      </MockModeProvider>
-    </BrowserRouter>
-  </ThemeProvider>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <BrowserRouter>
+        <MockModeProvider>
+          <StockSelectionProvider>
+            <StockSearchProvider>{<App />}</StockSearchProvider>
+          </StockSelectionProvider>
+        </MockModeProvider>
+      </BrowserRouter>
+    </ThemeProvider>
+  </React.StrictMode>
 );
