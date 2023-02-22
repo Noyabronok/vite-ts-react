@@ -54,7 +54,7 @@ export default function Header() {
           <Link
             variant="button"
             color="text.primary"
-            href="#"
+            href="https://mui.com"
             sx={{ my: 1, mx: 1.5, display: "inline" }}
             noWrap
           >
