@@ -5,12 +5,16 @@ import Link from "@mui/material/Link";
 import reactLogo from "../../assets/react.svg";
 import viteLogo from "../../assets/vite.svg";
 import muiLogo from "../../assets/mui.svg";
-import { ToggleButton } from "@mui/material";
+import { IconButton, ToggleButton } from "@mui/material";
 import { useMockMode } from "../../lib/MockMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import { useColorMode } from "../../lib/ColorMode";
 
 // provides horizontal bar at the top, including mock mode button
 export default function Header() {
   const { mockMode, toggleMockMode } = useMockMode();
+  const { toggleColorMode, colorMode } = useColorMode();
 
   return (
     <AppBar
@@ -23,6 +27,14 @@ export default function Header() {
         <Typography variant="h6" noWrap sx={{ flexGrow: 5 }}>
           Awesome Stock App
         </Typography>
+        <IconButton
+          sx={{px: 2, mx: 1}}
+          color="inherit"
+          aria-label="Toggle Color Mode"
+          onClick={() => toggleColorMode()}
+        >
+          {colorMode === "dark" ? <DarkModeIcon /> : <LightModeIcon />}
+        </IconButton>
         <ToggleButton
           value="check"
           selected={mockMode}
