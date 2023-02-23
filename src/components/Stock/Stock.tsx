@@ -7,39 +7,19 @@ import ArrowDownward from "@mui/icons-material/ArrowDownward";
 import { Typography } from "@mui/material";
 import StockRow from "../StockRow/StockRow";
 import type { StockType } from "../../lib/avantage";
-import { useCallback, useEffect } from "react";
-import { useStockOverview } from "./useStockOverview";
-import { useStockQuote } from "./useStockQuote";
+import { useCallback, useMemo } from "react";
+import { useStockDetails } from "../../lib/StockDetails/useStockDetails";
 
 export interface StockProps {
   stock: StockType;
-  onStockUpdated: (stock: StockType) => void;
-  mockMode: boolean;
 }
 
-// single stock card 
+// single stock card
 // retrieves stock details when loaded if details are missing
-export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
-  const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
-  // retrieve stock details
-  // TODO use loading/error indicators from the hooks to provide feedback to the user
-  const { overviewData } = useStockOverview(stock, mockMode);
-  const { quoteData } = useStockQuote(stock, mockMode);
-
-  // update stock details with retrieved data
-  useEffect(() => {
-    if (!stock.quote && quoteData) {
-      onStockUpdated({
-        ...stock,
-        quote: quoteData,
-      });
-    } else if (!stock.overview && overviewData) {
-      onStockUpdated({
-        ...stock,
-        overview: overviewData,
-      });
-    }
-  }, [onStockUpdated, overviewData, quoteData, stock]);
+export default function Stock({ stock }: StockProps) {
+  // load stock details
+  // TODO use loading/error indicators from the hook to provide feedback to the user
+  useStockDetails(stock, true);
 
   const formatCurrency = useCallback(
     (raw: string | number | undefined) => {
@@ -48,31 +28,32 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
       const amount = Math.abs(Number(raw)).toFixed(2);
       const sign = Number(raw) < 0 ? "- " : "";
 
-      return `${sign}$ ${amount} ${stock.overview?.currency || ''}`;
+      return `${sign}$ ${amount} ${stock.overview?.currency || ""}`;
     },
-    [stock]
+    [stock.overview?.currency]
   );
 
-  let changeArrow = <></>;
+  const priceIncreased = stock.quote?.change_percent?.charAt(0) !== "-";
 
-  if (stock.quote?.change_percent) {
-    changeArrow = priceIncreased ? (
-      <ArrowUpward color="success" />
-    ) : (
-      <ArrowDownward color="error" />
-    );
-  }
+  // hacky but gets the job done to prevent stock details rerendering
+  // TODO: spend more time investigating/refactoring so don't have to do this
+  const changeArrow = useMemo(() => {
+    if (stock.quote?.change_percent) {
+      return priceIncreased ? (
+        <ArrowUpward color="success" />
+      ) : (
+        <ArrowDownward color="error" />
+      );
+    }
+    return <></>;
+  }, [priceIncreased, stock.quote?.change_percent]);
 
-  return (
+  const StockRender = useMemo(() => (
     <Card component="article" aria-label={stock.symbol}>
       <StockHeader stock={stock} />
       <CardContent>
         <Grid container spacing={0}>
-          <StockRow
-            left="Country"
-            right={stock.overview?.country}
-            pb={2}
-          />
+          <StockRow left="Country" right={stock.overview?.country} pb={2} />
           <StockRow
             left="Price"
             right={
@@ -133,5 +114,7 @@ export default function Stock({ stock, onStockUpdated, mockMode }: StockProps) {
         </Grid>
       </CardContent>
     </Card>
-  );
+  ),[changeArrow, formatCurrency, priceIncreased, stock])
+
+  return StockRender;
 }
