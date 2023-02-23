@@ -14,10 +14,10 @@ export function useMockMode() {
   const mockMode = searchParams.get(MOCK_MODE_URL_PARAM_KEY) === 'true';
 
 
-  const onMockModeToggle = useCallback(() => {
+  const toggleMockMode = useCallback(() => {
     searchParams.set(MOCK_MODE_URL_PARAM_KEY, String(!mockMode));
     setSearchParams(searchParams);
   }, [mockMode, searchParams, setSearchParams]);
   
-  return {mockMode, onMockModeToggle};
+  return {mockMode, toggleMockMode};
 }
