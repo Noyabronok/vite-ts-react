@@ -1,6 +1,7 @@
 [
   {
     "Symbol": "PLTR",
+    "Name": "Palantir Technologies Inc - Class A",
     "Description": "Palantir Technologies Inc. creates and implements software platforms for the intelligence community in the United States to assist in counterterrorism investigations and operations. The company is headquartered in Denver, Colorado.",
     "Currency": "USD",
     "Country": "USA",
@@ -8,6 +9,7 @@
   },
   {
     "Symbol": "PTX.FRK",
+    "Name": "Palantir Technologies Inc",
     "Description": "Palantir Technologies Inc. creates and implements software platforms for the intelligence community in the United States to assist in counterterrorism investigations and operations. The company is headquartered in Denver, Colorado.",
     "Currency": "USD",
     "Country": "USA",
@@ -15,6 +17,7 @@
   },
   {
     "Symbol": "P2LT34.SAO",
+    "Name": "Palantir Technologies Inc.",
     "Description": "Palantir Technologies Inc. creates and implements software platforms for the intelligence community in the United States to assist in counterterrorism investigations and operations. The company is headquartered in Denver, Colorado.",
     "Currency": "USD",
     "Country": "USA",
@@ -22,6 +25,7 @@
   },
   {
     "Symbol": "PTX.DEX",
+    "Name": "Palantir Technologies Inc.",
     "Description": "Palantir Technologies Inc. creates and implements software platforms for the intelligence community in the United States to assist in counterterrorism investigations and operations. The company is headquartered in Denver, Colorado.",
     "Currency": "USD",
     "Country": "USA",

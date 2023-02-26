@@ -18,7 +18,7 @@ export default function StockHeader({ stock }: StockHeaderProps) {
           <span>{stock.symbol}</span>
         </Tooltip>
       }
-      subheader={stock.name}
+      subheader={stock.name || stock.overview?.name}
       titleTypographyProps={{ align: "center", variant: "h6" }}
       // TODO: consider removing this since there's already an option to remove the stocks in the picker
       // action={

@@ -4,7 +4,7 @@ import { avantageFetch, RawSearchResponse } from "./client";
 
 export interface StockType {
   symbol: string;
-  name: string;
+  name?: string;
   overview?: StockOverview;
   quote?: StockQuote;
 }

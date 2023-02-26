@@ -1,6 +1,7 @@
 import { avantageFetch, RawOverviewResponse } from "./client";
 
 export interface StockOverview {
+  name: string,
   description: string;
   exchange: string;
   currency: string;
@@ -22,6 +23,7 @@ export const stockOverview = async (
   );
 
   return {
+    name: response?.Name,
     description: response?.Description,
     exchange: response?.Exchange,
     currency: response?.Currency,

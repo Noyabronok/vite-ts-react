@@ -24,6 +24,7 @@ export interface RawSearchResponse {
 
 // there are more items returned but we don't need them
 export interface RawOverviewResponse {
+  Name: string,
   Description: string;
   Currency: string;
   Country: string;
