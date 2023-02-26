@@ -3,6 +3,7 @@ import { StockType } from "../avantage";
 import { useSearchParams } from "react-router-dom";
 
 const STOCKS_URL_PARAM_KEY = "stocks";
+const STOCKS_URL_DELIMITER = "~";
 
 // update the URL with stock selection so that selection can be shared
 // We could store just the stock symbol to make the URL smaller, but then we'd
@@ -11,21 +12,18 @@ const STOCKS_URL_PARAM_KEY = "stocks";
 export function useStocksUrl() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const stocksFromUrlParams: StockType[] = JSON.parse(
-    searchParams.get(STOCKS_URL_PARAM_KEY) || "[]"
-  );
+  const stocksFromUrlParams: StockType[] = (
+    searchParams.get(STOCKS_URL_PARAM_KEY)
+  )?.split(STOCKS_URL_DELIMITER)?.map(symbol => ({symbol})) || [];
 
   const updateUrlWithStockSelection = useCallback(
     (selectedStocks: StockType[]) => {
-      const selectedStocksAsUrlParams = selectedStocks.map((stock) => ({
-        symbol: stock.symbol,
-        name: stock.name,
-      }));
+      const selectedStocksAsUrlParams = selectedStocks.map(stock => stock.symbol);
 
       if (selectedStocksAsUrlParams?.length) {
         searchParams.set(
           STOCKS_URL_PARAM_KEY,
-          JSON.stringify(selectedStocksAsUrlParams)
+          selectedStocksAsUrlParams.join(STOCKS_URL_DELIMITER)
         );
         setSearchParams(searchParams);
       } else if (searchParams.has(STOCKS_URL_PARAM_KEY)) {
