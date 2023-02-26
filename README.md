@@ -99,7 +99,6 @@ The `main` branch is used for deployment only, and doesn't allow direct push.  Y
 # TODO
 Here are some of the things that could be done to improve this application
 1. feature: add stock details loading feedback (spinner?)
-1. feature: clean up stock serialization in URL to be more readable
 1. feature: add input validation
 1. tech: add more unit tests
 1. tech: add more e2e tests
